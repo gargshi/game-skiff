@@ -1,0 +1,110 @@
+# ==========================================
+# 🐍 Django Project .gitignore Template
+# ==========================================
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ---- Virtual Environment ----
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ---- Environment Variables ----
+.env
+*.env
+.env.*
+!.env.example  # Keep a sample env template if you use one
+
+# ---- Django Specific ----
+*.log
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+static/
+local_settings.py
+
+# ---- Migrations (optional, for early dev only) ----
+# Uncomment below if you don't want to track migrations yet
+# */migrations/*
+# !*/migrations/__init__.py
+
+# ---- Gunicorn / Uvicorn ----
+gunicorn.pid
+*.sock
+
+# ---- Cache & Bytecode ----
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.pkl
+*.bak
+
+# ---- Build Artifacts ----
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ---- Testing / Coverage ----
+htmlcov/
+.coverage
+.tox/
+.nox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# ---- IDE / Editor ----
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# ---- OS Files ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Temporary / Local Files ----
+tmp/
+temp/
+*.tmp
+*.log
+*.bak
+*.orig
+*.rej
+
+# ---- Docker / Compose ----
+docker-compose.override.yml
+*.pid
+
+# ---- Node / Frontend Builds ----
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# ---- Jupyter / Notebooks ----
+.ipynb_checkpoints/
+*.ipynb
+
+# ---- Editor backups ----
+*~
+
+
+
+
+#.env
+gk_skiff/settings_old.py
+nohup.out
+#db.sqlite3
