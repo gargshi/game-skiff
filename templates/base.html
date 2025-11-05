@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>GK_SKIFF - {% block title %}{% endblock %}</title>
+	{% block style_scripts %}
+		<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+	{% endblock %}	
+</head>
+
+<body>
+	<main>
+		{% block content %}
+		<!-- Page-specific content goes here -->
+		{% endblock %}
+	</main>
+
+	<footer>
+		© 2025 GK_SKIFF
+	</footer>
+
+</body>
+
+</html>
