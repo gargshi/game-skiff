@@ -1,11 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Hello World</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
 </head>
 <body>
     <h1>Hello World</h1>
 	<p>This is a test page. This content will be displayed after deploy to the ec2.</p>
 	<p>Just trying to test the deploy script</p>
+	<p class="success">Added a new success line</p>
+	<p class="error">Added a new error line</p>
 </body>
 </html>
