@@ -1,9 +1,68 @@
+:root {
+	--font-family: "Arial", "Open Sans", sans-serif;
+	--primary-color: #17a2b8;
+	--dark-color: #343a40;
+	--light-color: #f4f4f4;
+	--danger-color: #dc3545;
+	--success-color: #28a745;
+}
+
+* {
+	font-family: var(--font-family);
+}
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+header {
+	background-color: var(--dark-color);
+	color: var(--accent-color);
+	text-align: center;
+	padding: 20px;
+	font-size: 2rem;
+	font-weight: bold;
+	border-radius: 6px;
+	margin: 10px;
+}
+
+main {
+	flex: 1; /* Takes up all available space between header and footer */
+	background: var(--light-bg, #fff);
+	margin: 10px;
+	border-radius: 8px;
+}
+
+footer {
+	
+	text-align: center;
+	padding: 10px;
+	background-color: var(--dark-color);
+	color: var(--light-color);
+	border-radius: 6px;
+	margin: 10px;
+}
+
 .success {
-	color: green;
+	color: var(--success-color);
 	font-weight: bold;
 }
 
 .error {
-	color: red;
+	color: var(--danger-color);
 	font-weight: bold;
+}
+
+.banner {
+	text-align: center;
+	padding: 20px;
+	font-size: 50px;
+	font-weight: bold;
+	color: var(--primary-color);
+	background-color: var(--dark-color);
+	border-radius: 10px;
 }
