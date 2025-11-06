@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&family=Silkscreen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&family=Stack+Sans+Headline:wght@200..700&display=swap');
 :root {
-	--font-family: "Arial", "Open Sans", sans-serif;
+	--font-family: "Stack Sans Headline", "Arial", "Open Sans", sans-serif;
 	--primary-color: #17a2b8;
 	--black-color: #000;
 	--white-color: #fff;
@@ -42,7 +46,7 @@ header {
 main {
 	flex: 1; /* Takes up all available space between header and footer */
 	background: var(--light-bg, #fff);
-	margin: 10px;
+	margin: 5px;
 	border-radius: 8px;
 	perspective: 1000px;
 }
@@ -67,20 +71,66 @@ footer {
 	font-weight: bold;
 }
 
-.banner {
+.navbar {
 	display: flex;
-	text-align: center;
-	padding: 20px;
-	font-size: 50px;
-	font-weight: lighter;
-	height: 50%;
-	margin-top:20%;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 10px;
+	padding-left: 20px;
+	font-size: 1.2rem;
+	background-color: var(--dark-color);
+	color: var(--light-color);
+	border-radius: 6px;
+	perspective: 1000px;
+}
+
+.navbar-brand {
+	color: var(--light-color);
+	font-weight: normal;
+	font-size: 1.5rem;
+	padding: 10px;
+	background-color: var(--primary-color);
+	border-radius: inherit;
+	font-family: 'Silkscreen','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	transform: rotateY(0deg);
+	transition: transform 2s ease-in-out;
+}
+
+.navbar a {
+	color: var(--light-color);
+	text-decoration: none;
+	font-size: medium;
+	font-family: "Stack Sans Headline",'Arial', 'Electrolize', sans-serif;
+}
+
+.navbar-menu {
+	display: flex;
+	gap: 20px;
 	align-items: center;
+	padding-right: 20px;	
+	transform: translateX(10%);
+	opacity: 0;
+	transition: transform 2s ease-in-out, opacity 2s ease-in-out;
+}
+
+.banner {
+	transform-style:preserve-3d;
+	display: flex;
+	padding: 10px;
+	font-size: 10vh;
+	font-weight: lighter;
+	font-family: "Goldman","Stack Sans Headline",'Arial', 'Electrolize', sans-serif;
+	width: fit-content;
+	height: fit-content;
+	position: absolute;
+	top: 50%;
+	left: 40%;
+	transform: translate(0%, 0%) translateZ(-100px);
+	transform-origin: center center;	
 	justify-content: center;
-	color: var(--grayish-color);
+	color: var(--black-color);
 	border: 2px solid var(--grayish-color);
-	/* background-color: var(--dark-color); */
 	border-radius: 10px;
-	transform: translateZ(100px);	
-	transition: transform 0.5s ease-in-out, opacity 1s ease-in-out;
+	transition: transform 0.2s linear, opacity 1s ease-in-out;
+	will-change: transform, opacity;
 }
