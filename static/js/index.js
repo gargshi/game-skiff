@@ -32,9 +32,23 @@ function NavbarMenuAnimation(){
 	},master_animation_timeout*0.01);
 	navbarBrand.style.transform = 'rotateY(75deg)';
 }
-// setTimeout(NavbarMenuAnimation, 1000);
-NavbarMenuAnimation();
-// document.addEventListener('mousemove', rotateTowardCursor);
 
-// setTimeout(loadBanner, 1000);
-// loadBanner();
+NavbarMenuAnimation();
+
+// function revealCard(card, cardList){	
+// 	card.style.width = '500px';
+
+// 	for(var i = 0; i < cardList.length; i++){
+// 		if(cardList[i] != card){
+// 			cardList[i].style.transform = 'translateX(100%)';
+// 		}
+// 	}
+// }
+
+// featuredNovels = document.getElementById('feat-novels');
+// // console.log(featuredNovels);
+// featuredNovels.addEventListener('click', function(e){
+// 	// console.log(e.target);
+// 	card = e.target.parentElement.classList.contains('card') ? e.target.parentElement : e.target;
+// 	revealCard(card, featuredNovels);
+// })
