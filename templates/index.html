@@ -50,13 +50,12 @@
 			</button>
 		</div>
 	</div>
-
-
-
-	<script src="{% static 'js/index.js' %}"></script>
 	<script>
 		const list = document.querySelector('.horizontal-list');
 		document.querySelector('.left').onclick = () => list.scrollBy({ left: -250, behavior: 'smooth' });
 		document.querySelector('.right').onclick = () => list.scrollBy({ left: 250, behavior: 'smooth' });
 	</script>
+	{% block scripts %} 
+		<script src="{% static 'js/index.js' %}"></script>
+	{% endblock %}
 {% endblock %}

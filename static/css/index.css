@@ -4,21 +4,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&family=Stack+Sans+Headline:wght@200..700&display=swap');
 :root {
 	--font-family: "Stack Sans Headline", "Arial", "Open Sans", sans-serif;
-	--primary-color: #17a2b8;
-	--black-color: #000;
-	--white-color: #fff;
-	--grayish-color: #808080;
-	--accent-color: #f4f4f4;
-	--light-bg: #f8f9fa;
-	--dark-bg: #343a40;
-	--tron-blue: #0078d7;
-	--tron-red: #e81123;
-	--tron-orange: #f77f00;
-	--dark-color: #343a40;
-	--light-color: #f4f4f4;
-	--danger-color: #dc3545;
-	--success-color: #28a745;
-	--card-bg: rgba(244, 244, 244, 0.1);
+	--bg-color: #f4f4f4;
+	--text-color: #333;
+	--primary-color: #26a7b8;
+	--border-color: #323131;
+	--banner-bg-color: #006979;
+	
+}
+
+/* Dark mode styles */
+[data-theme="dark"] {
+	--bg-color: #1c1c1c;
+	--text-color: #f4f4f4;
+	--primary-color: #006979;
+	--border-color: #6a6969;
 }
 
 * {
@@ -31,6 +30,8 @@ body {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
+	color: var(--text-color);
+	background-color: var(--bg-color);
 }
 
 header {
@@ -46,7 +47,7 @@ header {
 
 main {
 	flex: 1; /* Takes up all available space between header and footer */
-	background: var(--light-bg, #fff);
+	background: var(--bg-color, #fff);
 	margin: 5px;
 	border-radius: 8px;
 	perspective: 1000px;
@@ -79,26 +80,27 @@ footer {
 	padding: 10px;
 	padding-left: 20px;
 	font-size: 1.2rem;
-	background-color: var(--dark-color);
-	color: var(--light-color);
+	background-color: var(--bg-color);
+	color: var(--text-color);
 	border-radius: 6px;
 	perspective: 1000px;
 }
 
 .navbar-brand {
-	color: var(--light-color);
+	color: #fff;
 	font-weight: normal;
 	font-size: 1.5rem;
 	padding: 10px;
-	background-color: var(--primary-color);
+	background-color: var(--banner-bg-color);
 	border-radius: inherit;
 	font-family: 'Silkscreen','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	transform: rotateY(0deg);
+	/* transform: rotateY(0deg); */
+	transform: rotateY(75deg);
 	transition: transform 2s ease-in-out;
 }
 
 .navbar a {
-	color: var(--light-color);
+	color: var(--text-color);
 	text-decoration: none;
 	font-size: medium;
 	font-family: "Stack Sans Headline",'Arial', 'Electrolize', sans-serif;
@@ -109,8 +111,8 @@ footer {
 	gap: 20px;
 	align-items: center;
 	padding-right: 20px;	
-	transform: translateX(10%);
-	opacity: 0;
+	/* transform: translateX(10%); */
+	/* opacity: 0; */
 	transition: transform 2s ease-in-out, opacity 2s ease-in-out;
 }
 
@@ -129,8 +131,9 @@ footer {
 	transform: translate(0%, 0%) translateZ(-100px);
 	transform-origin: center center;	
 	justify-content: center;
+	background-color: var(--banner-bg-color);
 	color: var(--black-color);
-	border: 2px solid var(--grayish-color);
+	border: 2px solid var(--border-color);
 	border-radius: 10px;
 	transition: transform 0.2s linear, opacity 1s ease-in-out;
 	will-change: transform, opacity;
@@ -181,6 +184,7 @@ footer {
 
 .card:hover {
 	animation: incWidth 0.5s forwards;
+	border: 1px solid var(--grayish-color);
 }
 
 .card:not(:hover) {
@@ -258,15 +262,19 @@ footer {
 	/* background-color: var(--grayish-color); */
 	color: var(--light-color);
 	border: none;
-	width: 40px;
-	height: 40px;
+	width: 30px;
+	height: 30px;
 	border-radius: 40px;
 	cursor: pointer;
-	font-size: 1.3rem;
+	font-size: 1.1rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	transition: background-color 0.3s ease;
+}
+.section-controls button svg {
+	width: 25px;
+	height: 25px;
 }
 
 .section-controls button:hover {
@@ -274,3 +282,90 @@ footer {
 	color: var(--black-color);
 	border:1px solid var(--grayish-color);
 }
+
+.btn{
+	color: var(--text-color);
+	background-color: var(--bg-color);
+	border:1px solid var(--border-color);
+	border-radius: 20px;
+	padding: 10px;
+	font-size: 1.1rem;
+	cursor: pointer;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn:hover{
+	color: var(--text-color);
+	background-color: var(--primary-color);
+	border:1px solid var(--border-color);
+}
+
+/* 🧾 Forms layout */
+.forms {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.form-container {
+  background: var(--card-bg);
+  padding: 2rem;
+  /* padding-right: 3rem; */
+  border: 1px solid var(--border-color);
+  /* border-radius: 10px; */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 320px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.form-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+.form-container h2 {
+  margin-bottom: 1.2rem;
+  font-size: 1.3rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* 📥 Form fields */
+.form-group {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="password"] {
+  width:100%;
+  box-sizing: border-box;
+  /* flex: 1; */
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--input-bg);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+

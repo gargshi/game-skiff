@@ -6,8 +6,8 @@
 	<meta charset="UTF-8">
 	<title>GK_SKIFF - {% block title %}{% endblock %}</title>
 	{% block style_scripts %}
-		<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
-	{% endblock %}	
+	<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+	{% endblock %}
 </head>
 
 <body>
@@ -20,6 +20,26 @@
 	<footer>
 		© 2025 GameSkiff
 	</footer>
+	<script>
+		const btn = document.getElementById('theme-toggle');
+		let themeFromStorage = localStorage.getItem('theme');
+		if (themeFromStorage === 'dark') {
+			document.documentElement.setAttribute('data-theme', 'dark');
+		}
+		btn.addEventListener('click', () => {
+			document.documentElement.toggleAttribute('data-theme');
+			if (!document.documentElement.hasAttribute('data-theme')) {
+				document.documentElement.removeAttribute('data-theme');
+				localStorage.removeItem('theme');
+			} else {
+				document.documentElement.setAttribute('data-theme', 'dark');
+				localStorage.setItem('theme', 'dark');
+			}
+		});
+	</script>
+	{% block scripts %}
+		<script src="{% static 'js/index.js' %}"></script>
+	{% endblock %}
 </body>
 
 </html>

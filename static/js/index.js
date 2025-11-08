@@ -33,7 +33,9 @@ function NavbarMenuAnimation(){
 	navbarBrand.style.transform = 'rotateY(75deg)';
 }
 
-NavbarMenuAnimation();
+// alert('Welcome to GK_SKIFF!');
+
+// NavbarMenuAnimation();
 
 // function revealCard(card, cardList){	
 // 	card.style.width = '500px';
