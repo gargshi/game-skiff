@@ -5,16 +5,26 @@
 
 {% block content %}
 {% include 'navbar.html' %}
+{% include 'messages.html' %}
+
+
+
 <div class="forms" id="login-register">
 	<div class="form-title">
 		{% if task == 'login' %}
-		<h2 id="title-login">Login</h2>
+			<h2 id="title-login">Login</h2>
 		{% elif task == 'register' %}
-		<h2 id="title-register">Register</h2>
+			<h2 id="title-register">Register</h2>
 		{% endif %}
 	</div>
 	<div class="form-container">
-		<form method="post" class="form">
+		<form method="post" class="form" action="
+			{% if task == 'login' %}
+				{% url 'bklogin' %}
+			{% elif task == 'register' %}
+				{% url 'bkregister' %}
+			{% endif %}
+		">
 			{% csrf_token %}
 			<div class="form-group">
 				<label for="username">Username</label>
@@ -30,8 +40,11 @@
 					<input type="password" id="repeat_password" name="repeat_password" required>
 				</div>
 			{% endif %}
-			
-			<button type="submit" class="btn">Register</button>
+			{% if task == 'login' %}
+				<button type="submit" class="btn">Login</button>
+			{% elif task == 'register' %}
+				<button type="submit" class="btn">Register</button>
+			{% endif %}			
 		</form>
 	</div>
 </div>
