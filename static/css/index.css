@@ -394,7 +394,7 @@ input:focus {
 	padding: 0.6rem 0.8rem;
 	font-size: 0.9rem;
 	gap: 5px;
-	height: 50px;	
+	height: 50px;
 }
 
 .alert-message {
@@ -416,7 +416,7 @@ input:focus {
 	height: 10px;
 	background-color: white;
 	border-radius: 10px;
-	margin-right: 5px;	
+	margin-right: 5px;
 }
 
 .success {
@@ -439,8 +439,108 @@ input:focus {
 	color: var(--alert-text-color);
 }
 
-.transparent-bg{
+.transparent-bg {
 	background-color: rgba(0, 0, 0, 0.5);
 	-webkit-backdrop-filter: blur(2px);
 	backdrop-filter: blur(2px);
+}
+
+.status {
+	margin-bottom: 1rem;
+	font-size: 1rem;
+	font-weight: bold;
+	color: var(--text-color);
+	/* border: 1px solid var(--border-color); */
+	border-radius: 6px;
+	padding: 0.6rem 0.8rem;
+	background-color: var(--input-bg);
+	transition: color 0.3s ease;
+}
+
+.profile-section {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	border: 1px solid var(--border-color);
+	/* max-width: 900px; */
+	margin: 3rem 2rem;
+	background: var(--card-bg, #111);
+	border-radius: 1rem;
+	overflow: hidden;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+
+
+.profile-header {
+	position:relative;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	padding: 1.5rem;
+	gap: 1.5rem;
+}
+
+.avatar {
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	border: 3px solid #17a2b8;
+	object-fit: cover;
+}
+
+.user-info {
+	color: #fff;
+}
+
+.username {
+	font-size: 1.8rem;
+	font-weight: 600;
+}
+
+.stats {
+	display: flex;
+	justify-content: space-around;
+	background: rgba(255, 255, 255, 0.05);
+	padding: 1rem 0;
+	color: #ddd;
+}
+
+.stat h3 {
+	font-size: 1.5rem;
+	color: #17a2b8;
+}
+
+.favorites {
+	padding: 1.5rem;
+}
+
+.favorite-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 1rem;
+	margin-top: 1rem;
+}
+
+.game-card {
+	background: rgba(255, 255, 255, 0.05);
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	text-align: center;
+	color: #fff;
+	transition: 0.3s;
+}
+
+.game-card img {
+	width: 100%;
+	border-radius: 0.5rem;
+}
+
+.game-card:hover {
+	transform: translateY(-5px);
+	background: rgba(23, 162, 184, 0.2);
+}
+
+.italic {
+	font-style: italic;
 }

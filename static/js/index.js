@@ -54,3 +54,5 @@ function NavbarMenuAnimation(){
 // 	card = e.target.parentElement.classList.contains('card') ? e.target.parentElement : e.target;
 // 	revealCard(card, featuredNovels);
 // })
+
+// alert('Welcome to GK_SKIFF!');	

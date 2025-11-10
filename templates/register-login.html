@@ -4,27 +4,33 @@
 {% block title %}Register or Login{% endblock %}
 
 {% block content %}
+<script>
+	// If the URL has a ?next= param, clean it after page load
+	if (window.location.search.includes('next=')) {
+		window.history.replaceState({}, document.title, window.location.pathname);
+	}
+</script>
 {% include 'navbar.html' %}
 {% include 'messages.html' %}
-
-
-
 <div class="forms" id="login-register">
 	<div class="form-title">
 		{% if task == 'login' %}
-			<h2 id="title-login">Login</h2>
+		<h2 id="title-login">Login</h2>
 		{% elif task == 'register' %}
-			<h2 id="title-register">Register</h2>
+		<h2 id="title-register">Register</h2>
 		{% endif %}
 	</div>
 	<div class="form-container">
 		<form method="post" class="form" action="
-			{% if task == 'login' %}
-				{% url 'bklogin' %}
-			{% elif task == 'register' %}
-				{% url 'bkregister' %}
+				{% if task == 'login' %}
+					{% url 'bklogin' %}
+				{% elif task == 'register' %}
+					{% url 'bkregister' %}
+				{% endif %}
+			">
+			{% if task == 'register' %}
+			<div class="status" id="form-status"></div>
 			{% endif %}
-		">
 			{% csrf_token %}
 			<div class="form-group">
 				<label for="username">Username</label>
@@ -33,19 +39,46 @@
 			<div class="form-group">
 				<label for="password">Password</label>
 				<input type="password" id="password" name="password" required>
-			</div>			
+			</div>
 			{% if task == 'register' %}
-				<div class="form-group">
-					<label for="repeat_password">Repeat Password</label>
-					<input type="password" id="repeat_password" name="repeat_password" required>
-				</div>
+			<div class="form-group">
+				<label for="repeat_password">Repeat Password</label>
+				<input type="password" id="repeat-password" name="repeat_password" required>
+			</div>
 			{% endif %}
 			{% if task == 'login' %}
-				<button type="submit" class="btn">Login</button>
+			<button type="submit" class="btn">Login</button>
 			{% elif task == 'register' %}
-				<button type="submit" class="btn">Register</button>
-			{% endif %}			
+			<button type="submit" class="btn">Register</button>
+			{% endif %}
 		</form>
 	</div>
 </div>
+{% if task == 'register' %}
+<script>
+	const password = document.getElementById("password");
+	const repeatPassword = document.getElementById("repeat-password");
+	const formStatus = document.getElementById("form-status");
+	function checkPasswordsMatch() {
+		var password = document.getElementById("password").value;
+		var confirmPassword = document.getElementById("repeat-password").value;
+		if (!password || !confirmPassword) {
+			formStatus.innerHTML = "Please check password fields";
+			formStatus.style.color = "red";
+		} else if (password != confirmPassword) {
+			formStatus.innerHTML = "Passwords do not match";
+			formStatus.style.color = "red";
+		} else {
+			formStatus.innerHTML = "Passwords match";
+			formStatus.style.color = "#90ff94";
+			setTimeout(() => {
+				formStatus.innerHTML = "";
+			}, 5000);
+		}
+		return true;
+	}
+	password.addEventListener("input", checkPasswordsMatch);
+	repeatPassword.addEventListener("input", checkPasswordsMatch);			
+</script>
+{% endif %}
 {% endblock %}

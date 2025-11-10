@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+{% include 'messages.html' %}
+<section class="profile-section">
+	<div class="profile-card">
+		<!-- Avatar and Info -->
+		<div class="profile-header">
+			<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMFX5-A5lE2e3zWzp6ZBOryfQXgjQWhlbdjg&s" alt="User Avatar" class="avatar">
+			<div class="user-info">
+				<h2 class="username">{{ user.username }}</h2>
+				{% if user.email %}
+					<p class="email">{{ user.email }}</p>
+				{% else %}
+					<p class="email italic">No email provided</p>
+				{% endif %}
+				<p class="member-since">Member since: {{ user.date_joined|date:"F Y" }}</p>
+			</div>
+		</div>
+
+		<!-- Gamer Stats -->
+		<div class="stats">
+			<div class="stat">
+				<h3>{{ total_games }}</h3>
+				<p>Games Played</p>
+			</div>
+			<div class="stat">
+				<h3>{{ wishlist_count }}</h3>
+				<p>In Wishlist</p>
+			</div>
+			<div class="stat">
+				<h3>{{ reviews_count }}</h3>
+				<p>Reviews Written</p>
+			</div>
+			<div class="stat">
+				<h3>{{ hours_played }}</h3>
+				<p>Total Hours</p>
+			</div>
+		</div>
+
+		<!-- Favorite Games / Collections -->
+		<div class="favorites">
+			<h2>Your Favorite Games</h2>
+			<div class="favorite-grid">
+				{% for game in favorite_games %}
+				<div class="game-card">
+					<img src="{{ game.cover_url }}" alt="{{ game.title }}">
+					<h4>{{ game.title }}</h4>
+				</div>
+				{% empty %}
+				<p class="empty-state">No favorites yet. Start exploring games!</p>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
