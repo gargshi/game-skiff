@@ -6,56 +6,522 @@
 {% block content %}
 {% include 'navbar.html' %}
 {% include 'messages.html' %}
+<style>
+	.side-bar {
+		color: #fff;
+		width: 200px;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: 30px;
+		position: sticky;
+	}
+
+	.profile-name {
+		font-size: 24px;
+		font-weight: lighter;
+		padding: 20px;
+	}
+
+	.side-bar-item {
+		padding: 10px;
+		cursor: pointer;
+		border: 1px solid;
+		border-color: #333;
+		transition: background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
+	}
+
+	.side-bar-item:hover {
+		background-color: #333;
+		padding: 15px;
+		border-color: #4b4b4b;
+		border-radius: 5px;
+	}
+
+	.profile-content {
+		flex: 1;
+		padding: 10px;
+	}
+
+	.active {
+		background-color: #333;
+		padding: 15px;
+		border-radius: 5px;
+	}
+
+	.profile-content {
+		overflow-y: scroll;
+		scrollbar-width: thin;
+		scrollbar-color: #3b3b3b #33333300;
+	}
+
+	.detail {
+		height: 100%;
+		padding: 10px;
+	}
+
+	.detail h2 {
+		font-family: 'Electrolize', 'Courier New', Courier, monospace;
+		font-size: 30px;
+		margin-bottom: 10px;
+	}
+
+	.detail p {
+		font-family: Arial, Helvetica, sans-serif;
+		margin-bottom: 5px;
+	}
+
+	.detail hr {
+		border: 1px solid;
+		border-color: #333;
+	}
+
+	.games-flex-grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
+	.cardd {
+		width: 200px;
+		height: 300px;
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+		border-radius: 12px;
+		padding: 14px;
+		border: 1px solid #333;
+		backdrop-filter: blur(4px);
+		transition: transform 0.5s ease, border 0.3s ease;
+	}
+
+	.cardd:hover {
+		transform: scale(1.01);
+		border: 1px solid #afafaf;
+	}
+
+
+
+
+
+
+	.thumb {
+		height: 150px;
+		border-radius: 8px;
+		background: linear-gradient(135deg, #2a2f6b, #7c3aed);
+		display: flex;
+		align-items: flex-end;
+		padding: 5px;
+		color: white;
+	}
+
+	.title {
+		font-weight: 100;
+		font-size: 16px;
+		background-color: #00000021;
+		width: 100%;
+		backdrop-filter: blur(2px);
+		padding: 5px;
+	}
+
+	.title p {
+		font-size: 13px;
+	}
+
+	.meta {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		color: var(--muted);
+		font-size: 13px
+	}
+
+	.desc {
+		color: var(--muted);
+		font-size: 13px;
+		margin: 10px 0
+	}
+
+	.actions {
+		display: flex;
+		gap: 8px
+	}
+
+	.cardd-btn {
+		padding: 8px 10px;
+		border-radius: 9px;
+		font-weight: 700;
+		border: 0;
+		cursor: pointer;
+		border: 1px solid rgba(255, 255, 255, 0.04)
+	}
+
+	.cardd-btn:hover {
+		border: 1px solid rgba(121, 121, 121, 0.968);
+	}
+
+	.primary {
+		background: var(--accent);
+		color: white
+	}
+
+	.ghost {
+		background: transparent;
+		border: 1px solid rgba(255, 255, 255, 0.04);
+		color: var(--muted)
+	}
+
+	.rating {
+		background: rgba(255, 255, 255, 0.04);
+		padding: 6px 8px;
+		border-radius: 8px
+	}
+
+	.tabs {
+		width: 100%;
+	}
+
+	.tab-buttons {
+		display: flex;
+		gap: 10px;
+		margin-bottom: 15px;
+	}
+
+	.tab-btn {
+		padding: 10px 15px;
+		background: #222;
+		color: #fff;
+		border: none;
+		border-radius: 6px;
+		cursor: pointer;
+		opacity: 0.7;
+		transition: 0.2s;
+	}
+
+	.tab-btn.active {		
+		border: 1px solid #4e9cff;
+		background-color: #4e9bff46;
+		opacity: 1;
+	}
+
+	.tab-content {
+		display: none;
+		padding: 15px;
+		background: #1c1c1c;
+		border-radius: 6px;
+		color: #fff;
+		animation: fadeIn 0.25s ease;
+	}
+
+	.tab-content.active {
+		display: block;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(4px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+</style>
 <section class="profile-section">
-	<div class="profile-card">
-		<!-- Avatar and Info -->
-		<div class="profile-header">
-			<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMFX5-A5lE2e3zWzp6ZBOryfQXgjQWhlbdjg&s" alt="User Avatar" class="avatar">
-			<div class="user-info">
-				<h2 class="username">{{ user.username }}</h2>
-				{% if user.email %}
-					<p class="email">{{ user.email }}</p>
-				{% else %}
-					<p class="email italic">No email provided</p>
-				{% endif %}
-				<p class="member-since">Member since: {{ user.date_joined|date:"F Y" }}</p>
-			</div>
+	<div class="side-bar">
+		<div class="profile-info">
+			<div class="profile-pic"></div>
+			<div class="profile-name">{{ user.username }}</div>
 		</div>
-
-		<!-- Gamer Stats -->
-		<div class="stats">
-			<div class="stat">
-				<h3>{{ total_games }}</h3>
-				<p>Games Played</p>
-			</div>
-			<div class="stat">
-				<h3>{{ wishlist_count }}</h3>
-				<p>In Wishlist</p>
-			</div>
-			<div class="stat">
-				<h3>{{ reviews_count }}</h3>
-				<p>Reviews Written</p>
-			</div>
-			<div class="stat">
-				<h3>{{ hours_played }}</h3>
-				<p>Total Hours</p>
-			</div>
-		</div>
-
-		<!-- Favorite Games / Collections -->
-		<div class="favorites">
-			<h2>Your Favorite Games</h2>
-			<div class="favorite-grid">
-				{% for game in favorite_games %}
-				<div class="game-card">
-					<img src="{{ game.cover_url }}" alt="{{ game.title }}">
-					<h4>{{ game.title }}</h4>
-				</div>
-				{% empty %}
-				<p class="empty-state">No favorites yet. Start exploring games!</p>
-				{% endfor %}
-			</div>
+		<div class="side-bar-menu">
+			<div class="side-bar-item" id="profile-item">Profile</div>
+			<div class="side-bar-item" id="settings-item">Settings</div>
+			<div class="side-bar-item" id="games-item">Games</div>
 		</div>
 	</div>
+	<div class="profile-content">
+		<div class="detail" id="profile-detail">
+			<h2>Profile</h2>
+			<hr>
+			<p>Welcome, {{ user.username }} !! This is your profile page.</p>
+			<p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+			<p>Email: {{ user.email }}</p>
+		</div>
+		<div class="detail" id="settings-detail">
+			<h2>Settings</h2>
+			<hr>
+			<p>Edit profile</p>
+			<p>Change password</p>
+			<p>Change email</p>
+		</div>
+		<div class="detail" id="games-detail">
+			<h2>Games</h2>
+			<hr>
+			<div class="tabs">
+				<div class="tab-buttons">
+					<button class="tab-btn active" data-tab="tab1">Your Game Library</button>
+					<button class="tab-btn" data-tab="tab2">Created Games</button>
+				</div>
+
+				<div class="tab-content active" id="tab1">
+					<h4>Your game library</h4>
+					<div class="games-flex-grid" id="played-games-list"></div>
+				</div>
+
+				<div class="tab-content" id="tab2">
+					<h4>Created games</h4>
+					<div class="games-flex-grid" id="created-games-list"></div>
+				</div>
+			</div>		
+		</div>
+	</div>
+
 </section>
+<script>
+
+	sideBarMenu = document.querySelector('.side-bar-menu');
+
+	color_pool = [
+		"#0A2647",
+		"#144272",
+		"#205295",
+		"#2C74B3",
+		"#3E1F47",
+		"#1A1A40",
+		"#301934",
+		"#003566",
+		"#1D3557",
+		"#2B2D42"
+	];
+
+	function randInt(max) {
+		return Math.floor(Math.random() * max);
+	}
+
+	function createGameCard({
+		title,
+		genre,
+		rating,
+		year,
+		description,
+		gradient = color_pool[randInt(color_pool.length)]
+	}) {
+		const el = document.createElement("div");
+		console.log(title)
+		el.innerHTML = `
+			<article class="cardd">
+				<div class="thumb">
+					<div class="title">
+						${title}
+						<p>${genre}</p>
+					</div>
+										
+				</div>
+
+
+				<div class="meta">
+					<div class="rating">⭐ ${rating}</div>
+					<div>${year}</div>
+				</div>
+
+				<div class="desc">${description}</div>
+
+				<div class="actions">
+					<button class="cardd-btn primary">More info</button>
+					
+				</div>
+			</article>
+		`;
+		const article = el.firstElementChild;
+		const thumb = article.querySelector(".thumb");
+		thumb.style.background = gradient;
+
+		return article;
+	}
+
+
+	let games = [
+		{
+			"name": "Game 1",
+			"title": "Driftbreak: Neon Outrun",
+			"image": "https://picsum.photos/300/180?random=11",
+			"genre": "Racing",
+			"rating": 4.4,
+			"year": 2024,
+			"description": "Race through neon cities where every turn rewrites the future."
+		},
+		{
+			"name": "Game 2",
+			"title": "Astral Vanguard",
+			"image": "https://picsum.photos/300/180?random=12",
+			"genre": "Sci-Fi Shooter",
+			"rating": 4.7,
+			"year": 2025,
+			"description": "Lead humanity's last elite squad beyond the veil of known space."
+		},
+		{
+			"name": "Game 3",
+			"title": "Shadowgate Rituals",
+			"image": "https://picsum.photos/300/180?random=13",
+			"genre": "Dark Fantasy",
+			"rating": 4.3,
+			"year": 2023,
+			"description": "Unseal cursed gateways and battle ancient spirits of the forgotten realm."
+		},
+		{
+			"name": "Game 4",
+			"title": "Frontier Harvest",
+			"image": "https://picsum.photos/300/180?random=14",
+			"genre": "Colony Builder",
+			"rating": 4.6,
+			"year": 2024,
+			"description": "Grow, build, and defend your settlement on a strange new world."
+		},
+		{
+			"name": "Game 5",
+			"title": "Riftsea Chronicles",
+			"image": "https://picsum.photos/300/180?random=15",
+			"genre": "Action RPG",
+			"rating": 4.5,
+			"year": 2023,
+			"description": "Dive into a fractured ocean world ruled by leviathans and lost magic."
+		},
+		{
+			"name": "Game 6",
+			"title": "Chrome Saboteur",
+			"image": "https://picsum.photos/300/180?random=16",
+			"genre": "Stealth / Cyberpunk",
+			"rating": 4.1,
+			"year": 2024,
+			"description": "Hack, infiltrate, and dismantle megacities from the underground."
+		},
+		{
+			"name": "Game 7",
+			"title": "Mythborn Valley",
+			"image": "https://picsum.photos/300/180?random=17",
+			"genre": "Adventure",
+			"rating": 4.8,
+			"year": 2025,
+			"description": "Uncover the myths that shaped a forgotten kingdom hidden in nature."
+		},
+		{
+			"name": "Game 8",
+			"title": "Iron Horizon: Sky Legion",
+			"image": "https://picsum.photos/300/180?random=18",
+			"genre": "Aerial Combat",
+			"rating": 4.2,
+			"year": 2023,
+			"description": "Command customizable airships in the ultimate sky-warfare saga."
+		},
+		{
+			"name": "Game 9",
+			"title": "Echoes of Meridian",
+			"image": "https://picsum.photos/300/180?random=19",
+			"genre": "Story-Driven RPG",
+			"rating": 4.9,
+			"year": 2025,
+			"description": "Rewrite fate as you explore timelines that collide and reshape reality."
+		},
+		{
+			"name": "Game 10",
+			"title": "Outpost Solstice",
+			"image": "https://picsum.photos/300/180?random=20",
+			"genre": "Survival",
+			"rating": 4.4,
+			"year": 2024,
+			"description": "Survive endless winter on a polar outpost where daylight never returns."
+		}
+	];
+
+	let userPlayedGames = [
+		games[0],
+		games[1],
+		games[2],
+		games[3]
+	];
+
+	let userCreatedGames = [
+		games[4],
+		games[5],
+		games[6],
+		games[7]
+	]
+
+
+	const gameList = document.getElementById('played-games-list');
+	userCreatedGames.forEach(game => {
+		card = createGameCard({
+			"title": game.title,
+			"genre": game.genre,
+			"rating": game.rating,
+			"year": game.year,
+			"description": game.description
+		});
+		gameList.appendChild(card);
+	});
+
+	const playedGameList = document.getElementById('created-games-list');
+	userPlayedGames.forEach(game => {
+		card = createGameCard({
+			"title": game.title,
+			"genre": game.genre,
+			"rating": game.rating,
+			"year": game.year,
+			"description": game.description
+		});
+		playedGameList.appendChild(card);
+	});
+
+
+
+
+
+	const detailSections = {
+		"profile-item": document.getElementById("profile-detail"),
+		"settings-item": document.getElementById("settings-detail"),
+		"games-item": document.getElementById("games-detail")
+	};
+	sideBarMenu.querySelectorAll('.side-bar-item').forEach((item) => {
+		item.addEventListener('click', () => {
+			sideBarMenu.querySelectorAll('.side-bar-item').forEach((item) => {
+				item.classList.remove('active');
+			})
+			item.classList.add('active');
+			const targetDetail = detailSections[item.id];
+			if (targetDetail) {
+				targetDetail.scrollIntoView({
+					behavior: "smooth",
+					block: "start"
+				});
+			}
+		})
+	});
+
+
+
+</script>
+<script>
+	document.querySelectorAll(".tab-btn").forEach(btn => {
+		btn.addEventListener("click", () => {
+
+			// remove active tab button
+			document.querySelectorAll(".tab-btn")
+				.forEach(b => b.classList.remove("active"));
+
+			// activate clicked button
+			btn.classList.add("active");
+
+			// hide all content
+			document.querySelectorAll(".tab-content")
+				.forEach(tab => tab.classList.remove("active"));
+
+			// show targeted content
+			document.getElementById(btn.dataset.tab)
+				.classList.add("active");
+		});
+	});
+
+</script>
+
 {% endblock %}
