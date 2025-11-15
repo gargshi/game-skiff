@@ -57,9 +57,13 @@
 	}
 
 	.detail {
-		height: 100%;
 		padding: 10px;
 	}
+
+	.detail-active {
+		height: 100%;
+	}
+
 
 	.detail h2 {
 		font-family: 'Electrolize', 'Courier New', Courier, monospace;
@@ -197,7 +201,7 @@
 		transition: 0.2s;
 	}
 
-	.tab-btn.active {		
+	.tab-btn.active {
 		border: 1px solid #4e9cff;
 		background-color: #4e9bff46;
 		opacity: 1;
@@ -227,6 +231,56 @@
 			transform: translateY(0);
 		}
 	}
+
+	.primary {
+		background: var(--primary-color);
+		color: white;
+		transition: 0.2s;
+		height: fit-content;
+	}
+
+	.btn-danger {
+		background: red;
+		color: white;
+	}
+
+	.primary:hover {
+		background: #00000021;
+		color: white
+	}
+
+	.flex {
+		display: flex;
+		gap: 10px;
+	}
+
+	.align-center {
+		align-items: center;
+	}
+
+	.space-between {
+		justify-content: space-between;
+	}
+
+	.flex-start {
+		justify-content: flex-start;
+	}
+
+	.profile-info-area {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.profile-info-area-edit {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.hidden {
+		display: none;
+	}
 </style>
 <section class="profile-section">
 	<div class="side-bar">
@@ -242,21 +296,31 @@
 	</div>
 	<div class="profile-content">
 		<div class="detail" id="profile-detail">
-			<h2>Profile</h2>
+			<h2 class="detail-title">Profile</h2>
 			<hr>
-			<p>Welcome, {{ user.username }} !! This is your profile page.</p>
-			<p>Name: {{ user.first_name }} {{ user.last_name }}</p>
-			<p>Email: {{ user.email }}</p>
+			<div class="profile-info-area">
+				<p>Welcome, {{ user.username }} !! This is your profile page.</p>
+				<p>Name: {{ profile.name }}</p>
+				{% if user.email == None or user.email == '' %}
+					<p>Email: <i>Not set</i></p>
+				{% else %}
+					<p>Email: {{ user.email }}</p>
+				{% endif %}
+			</div>
+			<button class="cardd-btn primary" id="edit-profile-btn">Edit</button>
+			<br>
+			<br>
+			<div class="profile-info-area-edit">
+			</div>
 		</div>
 		<div class="detail" id="settings-detail">
-			<h2>Settings</h2>
+			<h2 class="detail-title">Settings</h2>
 			<hr>
-			<p>Edit profile</p>
 			<p>Change password</p>
 			<p>Change email</p>
 		</div>
 		<div class="detail" id="games-detail">
-			<h2>Games</h2>
+			<h2 class="detail-title">Games</h2>
 			<hr>
 			<div class="tabs">
 				<div class="tab-buttons">
@@ -273,12 +337,20 @@
 					<h4>Created games</h4>
 					<div class="games-flex-grid" id="created-games-list"></div>
 				</div>
-			</div>		
+			</div>
 		</div>
 	</div>
 
 </section>
+
+
+{% endblock %}
+
+{% block other_scripts %}
 <script>
+
+	const profileName = document.querySelector('.profile-name');
+	glitchReveal(profileName, profileName.textContent, 1000);
 
 	sideBarMenu = document.querySelector('.side-bar-menu');
 
@@ -308,7 +380,6 @@
 		gradient = color_pool[randInt(color_pool.length)]
 	}) {
 		const el = document.createElement("div");
-		console.log(title)
 		el.innerHTML = `
 			<article class="cardd">
 				<div class="thumb">
@@ -445,7 +516,9 @@
 		games[4],
 		games[5],
 		games[6],
-		games[7]
+		games[7],
+		games[8],
+		games[9]
 	]
 
 
@@ -473,10 +546,6 @@
 		playedGameList.appendChild(card);
 	});
 
-
-
-
-
 	const detailSections = {
 		"profile-item": document.getElementById("profile-detail"),
 		"settings-item": document.getElementById("settings-detail"),
@@ -495,7 +564,42 @@
 					block: "start"
 				});
 			}
+			//blink border of detail title to emphasize it
+			const detailTitle = targetDetail.querySelector('.detail-title');
+			glitchReveal(detailTitle, detailTitle.textContent);
 		})
+	});
+
+	const editProfileBtn = document.getElementById('edit-profile-btn');
+	let formHidden = true;
+	editProfileBtn.addEventListener('click', () => {
+		const profileInfoArea = document.querySelector('.profile-info-area');
+		const profileInfoAreaEdit = document.querySelector('.profile-info-area-edit');
+
+		formHTML = `
+			<form method="post" class="profile-form" action="{% url 'bkeditprofile' %}">
+				{% csrf_token %}				
+				<div class="form-group">
+					<label for="name">Name</label>
+					<input type="text" id="name" name="name" value="{{ profile.name }}" required>
+				</div>				
+				<button type="submit" class="cardd-btn primary">Save</button>
+			</form>
+		`;
+
+		formHidden = !formHidden;
+		if (!formHidden) {
+			profileInfoAreaEdit.innerHTML = formHTML;
+			profileInfoArea.classList.add('hidden');
+			editProfileBtn.innerHTML = "Cancel Editing";
+			editProfileBtn.classList.add('btn-danger');
+		}
+		else {
+			profileInfoAreaEdit.innerHTML = "";
+			profileInfoArea.classList.remove('hidden');
+			editProfileBtn.innerHTML = "Edit";
+			editProfileBtn.classList.remove('btn-danger');
+		}
 	});
 
 
@@ -523,5 +627,4 @@
 	});
 
 </script>
-
 {% endblock %}

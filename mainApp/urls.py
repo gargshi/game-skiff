@@ -9,5 +9,6 @@ urlpatterns = [
 	path('bklogin', views.login_logic, name='bklogin'),
     path('bkregister', views.register, name='bkregister'),
     path('<str:user>/userProfile', views.userProfile, name='user-profile'),
+	path('bkeditprofile', views.edit_profile, name='bkeditprofile'),
 	path('logout', views.logout_logic, name='logout'),
 ]

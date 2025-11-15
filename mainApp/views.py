@@ -76,7 +76,12 @@ def register(request):
 @login_required(login_url='login')
 def userProfile(request, user):
     user = User.objects.get(username=user)
-    profile = Profile.objects.get_or_create(user=user)
+    if user != request.user:
+        messages.error(request, 'Unauthorized access, this incident has been logged.')
+        logout(request)
+        messages.error(request, 'You have been logged out due to this action.')
+        return redirect('login')
+    profile,_ = Profile.objects.get_or_create(user=user)
     context={
         'user': user,
         'profile': profile
@@ -88,3 +93,19 @@ def logout_logic(request):
         logout(request)
         messages.success(request, 'Logged out successfully')
     return redirect('login')
+
+def edit_profile(request):
+    if not request.user.is_authenticated:
+        messages.error(request, 'You must be logged in to edit your profile')
+        return redirect('login')
+    if request.method == 'POST' and request.user.is_authenticated:
+        try:
+            user = User.objects.get(username=request.user)
+            profile= Profile.objects.get(user=user)     
+            profile.name=request.POST["name"]
+            profile.save()
+            messages.success(request, ' Profile updated successfully')
+        except Exception as e:
+            print(e)
+            messages.error(request, 'Something went wrong')
+    return redirect('user-profile', request.user)
