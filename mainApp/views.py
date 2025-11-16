@@ -5,13 +5,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
-from .models import Profile
+from .models import Profile, Game
 
 # Create your views here.
 
 
 def index(request):
-    return render(request, 'index.html')
+    games = Game.objects.all()
+    context={
+        'games': games
+    }
+    return render(request, 'index.html',context)
 
 
 def goToLogin(request):
@@ -109,3 +113,23 @@ def edit_profile(request):
             print(e)
             messages.error(request, 'Something went wrong')
     return redirect('user-profile', request.user)
+
+def add_game(request):
+    print(request.POST)
+    if not request.user.is_authenticated:
+        messages.error(request, 'You must be logged in to add a game')
+        return redirect('login')
+    if request.method == 'POST' and request.user.is_authenticated:
+        messages.info(request, f'Adding game...{request.POST.get("title")} ')
+        try:
+            game = Game()
+            game.author=request.user
+            game.title=request.POST["title"]
+            game.description=request.POST["description"]
+            game.link=request.POST["link"]
+            game.save()
+            messages.success(request, 'Game added successfully')
+        except Exception as e:
+            print(e)
+            messages.error(request, 'Something went wrong')
+    return redirect('index')

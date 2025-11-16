@@ -2,6 +2,10 @@ const banner = document.querySelector('.banner');
 const navbarMenu = document.querySelector('.navbar-menu');
 const navbarBrand = document.querySelector('.navbar-brand');
 
+navbarBrand.addEventListener('click', () => {
+	window.location.href = '/';
+});
+
 function loadBanner() {
 	// alert('Welcome to GK_SKIFF!');
 	master_color_change_dur_s = 1;
@@ -32,29 +36,6 @@ function NavbarMenuAnimation() {
 	navbarBrand.style.transform = 'rotateY(75deg)';
 }
 
-// alert('Welcome to GK_SKIFF!');
-
-// NavbarMenuAnimation();
-
-// function revealCard(card, cardList){	
-// 	card.style.width = '500px';
-
-// 	for(var i = 0; i < cardList.length; i++){
-// 		if(cardList[i] != card){
-// 			cardList[i].style.transform = 'translateX(100%)';
-// 		}
-// 	}
-// }
-
-// featuredNovels = document.getElementById('feat-novels');
-// // console.log(featuredNovels);
-// featuredNovels.addEventListener('click', function(e){
-// 	// console.log(e.target);
-// 	card = e.target.parentElement.classList.contains('card') ? e.target.parentElement : e.target;
-// 	revealCard(card, featuredNovels);
-// })
-
-// alert('Welcome to GK_SKIFF!');	
 function glitchReveal(element, finalText, duration = 700) {
 	let chars = "!<>-_\\/[]{}—=+*^?#________0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	chars = "|01|";
@@ -73,7 +54,7 @@ function glitchReveal(element, finalText, duration = 700) {
 		"#b84dff"
 	];
 
-	colorList=[
+	colorList = [
 		"#b2b2b2ff",
 		"#ff4d4d",
 		"#ffffff",
@@ -105,4 +86,120 @@ function glitchReveal(element, finalText, duration = 700) {
 			clearInterval(interval);
 		}
 	}, 40);
+}
+
+function createModal(options) {
+	const {
+		title = "Modal Title",
+		content = "This is a modal dialog.",
+		okText = "OK",
+		cancelText = "Cancel",
+		onOk = () => { },
+		onCancel = () => { }
+	} = options;
+
+	// ---- Create wrapper ----
+	const overlay = document.createElement("div");
+	overlay.style.position = "fixed";
+	overlay.style.top = "0";
+	overlay.style.left = "0";
+	overlay.style.width = "100vw";
+	overlay.style.height = "100vh";
+	overlay.style.background = "rgba(0,0,0,0.5)";
+	overlay.style.display = "flex";
+	overlay.style.alignItems = "center";
+	overlay.style.justifyContent = "center";
+	overlay.style.zIndex = "9999";
+	overlay.className+= " blur-bg";
+
+	function closeModal() {
+		if (overlay.parentElement) {
+			overlay.parentElement.removeChild(overlay);
+		}
+	}
+
+	overlay.onclick = (e) => {
+		if (e.target === overlay) closeModal();
+	};
+
+	document.addEventListener("keydown", (e) => {
+		if (e.key === "Escape") closeModal();
+	});
+
+
+	// ---- Create modal box ----
+	const box = document.createElement("div");
+	box.style.color = "#fff";
+	box.style.width = "350px";
+	box.style.background = "var(--modal-bg-color)";
+	box.style.border = "1px solid var(--border-color)";
+	box.style.borderRadius = "10px";
+	box.style.padding = "20px";
+	box.style.boxShadow = "0 5px 20px rgba(0,0,0,0.2)";
+	box.style.animation = "modalPop 0.3s ease";
+
+	// ---- Header ----
+	const header = document.createElement("h2");
+	header.innerText = title;
+	header.style.margin = "0 0 15px";
+	header.style.fontSize = "20px";
+
+	// ---- Body ----
+	const body = document.createElement("div");
+
+	body.innerHTML = content;
+	body.style.marginBottom = "20px";
+
+	// ---- Buttons container ----
+	const actions = document.createElement("div");
+	actions.style.display = "flex";
+	actions.style.justifyContent = "flex-end";
+	actions.style.gap = "10px";
+
+	// ---- Cancel button ----
+	const btnCancel = document.createElement("button");
+	btnCancel.innerText = cancelText;
+	btnCancel.style.padding = "8px 16px";
+	btnCancel.style.border = "none";
+	btnCancel.style.background = "#ccc";
+	btnCancel.style.borderRadius = "6px";
+	btnCancel.style.cursor = "pointer";
+
+	btnCancel.onclick = () => {
+		onCancel();
+		closeModal();
+	};
+
+	// ---- OK button ----
+	const btnOk = document.createElement("button");
+	btnOk.innerText = okText;
+	btnOk.style.padding = "8px 16px";
+	btnOk.style.border = "none";
+	btnOk.style.background = "#007bff";
+	btnOk.style.color = "#fff";
+	btnOk.style.borderRadius = "6px";
+	btnOk.style.cursor = "pointer";
+
+	btnOk.onclick = () => {
+		onOk();
+		closeModal();
+	};
+
+	// ---- Assemble modal ----
+	actions.append(btnCancel, btnOk);
+	box.append(header, body, actions);
+	overlay.append(box);
+	document.body.append(overlay);
+
+	// ---- Add animation keyframes ----
+	const style = document.createElement("style");
+	style.textContent = `
+        @keyframes modalPop {
+            from { transform: scale(0.7); opacity: 0;}
+            to { transform: scale(1); opacity: 1;}
+        }
+    `;
+	document.head.appendChild(style);
+
+	return overlay;
 }

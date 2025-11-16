@@ -10,5 +10,6 @@ urlpatterns = [
     path('bkregister', views.register, name='bkregister'),
     path('<str:user>/userProfile', views.userProfile, name='user-profile'),
 	path('bkeditprofile', views.edit_profile, name='bkeditprofile'),
+	path('addgame', views.add_game, name='addgame'),
 	path('logout', views.logout_logic, name='logout'),
 ]
