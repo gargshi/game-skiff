@@ -110,7 +110,7 @@ function createModal(options) {
 	overlay.style.alignItems = "center";
 	overlay.style.justifyContent = "center";
 	overlay.style.zIndex = "9999";
-	overlay.className+= " blur-bg";
+	overlay.className += " blur-bg";
 
 	function closeModal() {
 		if (overlay.parentElement) {
@@ -202,4 +202,64 @@ function createModal(options) {
 	document.head.appendChild(style);
 
 	return overlay;
+}
+color_pool = [
+	"#0A2647",
+	"#144272",
+	"#205295",
+	"#2C74B3",
+	"#3E1F47",
+	"#1A1A40",
+	"#301934",
+	"#003566",
+	"#1D3557",
+	"#2B2D42"
+];
+
+function randInt(max) {
+	return Math.floor(Math.random() * max);
+}
+function createGameCard({
+	title,
+	genre = "Unknown",
+	rating = 0,
+	year = 0,
+	description = "",
+	author = "Anon",
+	publisher = "Anon",
+	gradient = color_pool[randInt(color_pool.length)]
+}) {
+	const el = document.createElement("div");
+	el.innerHTML = `
+			<article class="cardd">
+				<div class="thumb">
+					<div class="title">
+						${title}
+						<p>${genre}</p>
+					</div>
+										
+				</div>
+
+
+				<div class="meta">
+					<div class="rating">⭐ ${rating}</div>
+					<div>${year}</div>
+				</div>
+
+				<div class="desc">${description}</div>
+
+				<div class="actions">
+					<button class="cardd-btn primary">More info</button>					
+				</div>
+				<div class="credits">
+					<div class="credit-row">Developed by ${author}</div>
+					<div class="credit-row">Published by ${publisher}</div>
+				</div>	
+			</article>
+		`;
+	const article = el.firstElementChild;
+	const thumb = article.querySelector(".thumb");
+	thumb.style.background = gradient;
+
+	return article;
 }

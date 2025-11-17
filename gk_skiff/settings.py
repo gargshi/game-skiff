@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+	'rest_framework',
     'mainApp',
 ]
 
@@ -133,3 +134,14 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',   # for visitors
+        'rest_framework.throttling.UserRateThrottle',   # for logged-in users
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '50/min',    # Limit for non logged-in users
+        'user': '200/min',   # Limit for authenticated users
+    }
+}

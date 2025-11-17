@@ -6,9 +6,17 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from .models import Profile, Game
+from .serializers import GameSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 # Create your views here.
 
+@api_view(['GET'])
+def fetch_all_games(request):
+    games = Game.objects.all()
+    serializer = GameSerializer(games, many=True)
+    return Response(serializer.data)
 
 def index(request):
     games = Game.objects.all()

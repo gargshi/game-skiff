@@ -17,6 +17,7 @@
 	--alert-text-color: #fff;
 	--alert-fade-time: 5s;
 	--modal-bg-color: rgba(0, 0, 0, 0.5);
+	--muted: #a3a3a3;
 }
 
 /* Dark mode styles */
@@ -581,6 +582,7 @@ input:focus {
 	align-items: flex-end;
 	padding: 5px;
 	color: white;
+	overflow: hidden;
 }
 
 .title {
@@ -627,6 +629,14 @@ input:focus {
 .cardd-btn:hover {
 	border: 1px solid rgba(121, 121, 121, 0.968);
 }
+
+.cardd .credits .credit-row {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	font-size: 10px;
+	color: var(--muted)
+}	
 
 .primary {
 	background: var(--accent);

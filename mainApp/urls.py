@@ -11,5 +11,6 @@ urlpatterns = [
     path('<str:user>/userProfile', views.userProfile, name='user-profile'),
 	path('bkeditprofile', views.edit_profile, name='bkeditprofile'),
 	path('addgame', views.add_game, name='addgame'),
+	path('allgames', views.fetch_all_games, name='allgames'),
 	path('logout', views.logout_logic, name='logout'),
 ]
