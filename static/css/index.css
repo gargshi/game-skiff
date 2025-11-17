@@ -555,7 +555,7 @@ input:focus {
 
 .cardd {
 	width: 200px;
-	height: 300px;
+	height: 350px;
 	background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
 	border-radius: 12px;
 	padding: 14px;
@@ -609,7 +609,9 @@ input:focus {
 .desc {
 	color: var(--muted);
 	font-size: 13px;
-	margin: 10px 0
+	margin: 10px 0;
+	height: 50px;
+	overflow: hidden;
 }
 
 .actions {
@@ -630,12 +632,17 @@ input:focus {
 	border: 1px solid rgba(121, 121, 121, 0.968);
 }
 
+.cardd .credits {
+	position: absolute;
+    bottom: 2vh;
+}
+
 .cardd .credits .credit-row {
 	display: flex;
 	gap: 8px;
 	align-items: center;
 	font-size: 10px;
-	color: var(--muted)
+	color: var(--muted);
 }	
 
 .primary {

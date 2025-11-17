@@ -246,7 +246,7 @@ function createGameCard({
 					<div>${year}</div>
 				</div>
 
-				<div class="desc">${description}</div>
+				<div class="desc">${description.length > 50 ? description.slice(0, 50) + "..." : description}</div>
 
 				<div class="actions">
 					<button class="cardd-btn primary">More info</button>					

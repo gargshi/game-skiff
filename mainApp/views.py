@@ -123,7 +123,6 @@ def edit_profile(request):
     return redirect('user-profile', request.user)
 
 def add_game(request):
-    print(request.POST)
     if not request.user.is_authenticated:
         messages.error(request, 'You must be logged in to add a game')
         return redirect('login')
