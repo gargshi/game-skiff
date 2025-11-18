@@ -99,8 +99,8 @@
 			</div>
 			<p>For more metrics, explore the links below:-
 			</p>
-			<a target="_blank" class="btn-link" href="{% url 'admin:index' %}">admin panel</a>
-			<a target="_blank" class="btn-link" href="{% url 'admin:index' %}">Custom admin panel</a>
+			<a target="_blank" class="btn-link" href="{% url 'admin:index' %}">Main Admin panel</a>
+			<a target="_blank" class="btn-link" href="{% url 'dashboard:index' %}">Dashboard</a>		
 
 		</div>
 		{% endif %}
@@ -118,10 +118,6 @@
 	glitchReveal(profileName, profileName.textContent, 1000);
 
 	sideBarMenu = document.querySelector('.side-bar-menu');
-
-	
-
-	
 
 
 	let games = [

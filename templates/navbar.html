@@ -1,5 +1,10 @@
 {% load static %}
-
+<style>
+	.link-active {
+		transition: border-bottom 1s ease-in-out;
+		border-bottom: 5px solid var(--primary-color);
+	}
+</style>
 <nav class="navbar">
 	<div class="navbar-brand">gameSkiff</div>
 	<div class="navbar-menu">
@@ -10,10 +15,45 @@
 			<a href="{% url 'login' %}">Login</a>
 			<a href="{% url 'register' %}">Signup</a>
 		{% else %}
-			<a href="{% url 'user-profile' user.username %}">Profile</a>
-			<a href="{% url 'logout' %}">Logout</a>
+			{% if user.is_superuser %}
+				<a href="{% url 'dashboard:index' %}">Dashboard</a>
+			{% endif %}
+				<a href="{% url 'user-profile' user.username %}">Profile</a>
+				<a href="{% url 'logout' %}">Logout</a>
 		{% endif %}
-	</div>	
+	</div>
 	<button id="theme-toggle" class="btn">Dark Mode</button>
-	
 </nav>
+
+<script>
+	const currentPath = window.location.pathname;
+	const navbarLinks = document.querySelectorAll('.navbar-menu a');
+
+	navbarLinks.forEach(link => {
+		let linkPath = link.getAttribute('href');
+
+		// Skip if null
+		if (!linkPath) return;
+
+		// Ignore hash links (#)
+		if (linkPath.startsWith('#')) return;
+
+		// Convert absolute URLs to path only
+		if (linkPath.startsWith('http')) {
+			try {
+				linkPath = new URL(linkPath).pathname;
+			} catch (e) { }
+		}
+
+		// Exact match OR prefix match for nested pages
+		if (
+			currentPath === linkPath ||
+			(linkPath !== '/' && currentPath.startsWith(linkPath))
+		) {
+			link.classList.add('link-active');
+		} else {
+			link.classList.remove('link-active');
+		}
+	});
+
+</script>

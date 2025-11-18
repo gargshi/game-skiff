@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+{% include 'messages.html' %}
+<section class="section">
+	<style>
+		.flex-wrap {
+			display: flex;
+			flex-wrap: wrap;
+		}
+		.dash-card {
+			background-color: var(--bg-color);
+			color: var(--text-color);
+			border-radius: 10px;
+			padding: 20px;
+			margin: 10px;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+			border: 1px solid var(--border-color);
+			transition:all 0.3s ease;
+		}
+		.dash-card .card-title {
+			font-size: 1.2rem;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}		
+		.dash-card .card-value {
+			font-size: 2rem;
+			font-weight: bold;
+		}
+		.dash-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 8px 10px var(--text-color);			
+		}
+	</style>
+	<h2 class="section-title">Dashboard</h2>
+	<p>Your Website at a glance</p>
+	<div class="flex flex-wrap">
+		<div class="dash-card">
+			<div class="card-title">Total Users</div>			
+			<div class="card-value">{{ superuser_metrics.users }}</div>
+		</div>
+		<div class="dash-card">
+			<div class="card-title">Total Games</div>			
+			<div class="card-value">{{ superuser_metrics.games }}</div>
+		</div>
+		<div class="dash-card">
+			<div class="card-title">Total Logged-In Users</div>			
+			<div class="card-value">{{ superuser_metrics.login_users }}</div>
+		</div>			
+	</div>
+</section>
+{% endblock %}

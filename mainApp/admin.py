@@ -35,4 +35,3 @@ admin.site.register(Profile)
 admin.site.register(Game)
 admin.site.register(Genre)
 admin.site.register(Rating)
-
