@@ -3,12 +3,14 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.sessions.models import Session
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from .models import Profile, Game
 from .serializers import GameSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+import datetime
 
 # Create your views here.
 
@@ -98,6 +100,13 @@ def userProfile(request, user):
         'user': user,
         'profile': profile
     }
+    if request.user.is_superuser:
+        metrics = {
+            'users': User.objects.count(),
+            'games': Game.objects.count(),
+            'login_users': get_logged_in_users().count()
+        }
+        context['superuser_metrics'] = metrics
     return render(request, 'user-profile.html',context)
 
 def logout_logic(request):
@@ -140,3 +149,15 @@ def add_game(request):
             print(e)
             messages.error(request, 'Something went wrong')
     return redirect('index')
+
+def get_logged_in_users():
+    sessions = Session.objects.filter(expire_date__gte=datetime.datetime.now())
+    user_ids = []
+
+    for session in sessions:
+        data = session.get_decoded()
+        uid = data.get('_auth_user_id')
+        if uid:
+            user_ids.append(uid)
+
+    return User.objects.filter(id__in=set(user_ids))

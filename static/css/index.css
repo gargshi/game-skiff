@@ -216,6 +216,7 @@ footer {
 }
 
 .card:hover .card-info {
+	-webkit-backdrop-filter: blur(2px);
 	backdrop-filter: blur(2px);
 
 }
@@ -314,10 +315,28 @@ footer {
 	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.btn-link{
+	color: var(--text-color);
+	background-color: rgba(0, 0, 0, 0.4);
+	border-bottom: 1px solid orange;	
+	padding: 5px;
+	font-size: 1rem;
+	font-style: italic;
+	cursor: pointer;
+	transition: background-color 0.3s ease, color 0.3s ease;
+	text-decoration: none;
+}
+
 .btn:hover {
 	color: var(--text-color);
 	background-color: var(--primary-color);
 	border: 1px solid var(--border-color);
+}
+
+.btn-link:hover {
+	color: var(--text-color);	
+	background-color: rgb(147, 83, 23);
+	border-radius: 5px;
 }
 
 /* 🧾 Forms layout */
@@ -337,6 +356,7 @@ footer {
 	/* border-radius: 10px; */
 	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 	width: 320px;
+	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
 	transition: transform 0.3s ease;
 }
@@ -560,6 +580,7 @@ input:focus {
 	border-radius: 12px;
 	padding: 14px;
 	border: 1px solid #333;
+	-webkit-backdrop-filter: blur(4px);
 	backdrop-filter: blur(4px);
 	transition: transform 0.5s ease, border 0.3s ease;
 }
@@ -590,6 +611,7 @@ input:focus {
 	font-size: 16px;
 	background-color: #00000021;
 	width: 100%;
+	-webkit-backdrop-filter: blur(2px);
 	backdrop-filter: blur(2px);
 	padding: 5px;
 }
@@ -771,5 +793,38 @@ input:focus {
 }
 
 .blur-bg{
+	-webkit-backdrop-filter: blur(4px);
 	backdrop-filter: blur(4px);
+}
+
+#superuser-item{
+	border:1px solid red;
+	font-style: italic;
+	color: #fff;
+}
+
+.metric{
+	flex: 0 0 5%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	padding: 10px;
+	border: 1px solid #dbd8d8cd;
+	border-radius: 10px;
+	background-color: #00000021;
+	-webkit-backdrop-filter: blur(4px);
+	backdrop-filter: blur(4px);
+	margin: 5px;	
+}
+
+.metric-value{
+	/* font-family: Arial, Helvetica, sans-serif; */
+	font-weight: light;
+	font-size: 2rem;
+}
+
+.flex-wrap{
+	display: flex;
+	flex-wrap: wrap;
 }

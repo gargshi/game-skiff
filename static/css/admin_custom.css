@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&family=Silkscreen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&family=Stack+Sans+Headline:wght@200..700&display=swap');
+
+
+/* HEADER BAR */
+#header {
+    background: #011514 !important; /* teal */
+    color: white !important;
+}
+.theme-toggle svg.theme-icon-when-auto, .theme-toggle svg.theme-icon-when-dark, .theme-toggle svg.theme-icon-when-light {
+    fill: var(--header-link-color);
+    color: transparent;
+}
+
+/* body{
+	font-family: 'Arial', 'Courier New', Courier, monospace !important;
+} */
+/* LOGO / BRANDING TITLE */
+#branding h1 {
+    color: white !important;
+}
+
+#branding #site-name {
+	font-family: 'Electrolize', 'Courier New', Courier, monospace !important;
+	font-weight: lighter !important;
+}
+
+/* TABLE HEADERS */
+#changelist table thead th {
+    border: 1px solid #000000 !important;
+    color: #fff !important;
+}
+
+/* BUTTONS */
+.button, input[type=submit] {
+    border: 1px solid #134e4a !important;
+	background: black !important;
+	color: #fff !important;
+    border-radius: 6px !important;
+    padding: 6px 14px !important;
+}
+.nav-spacer{
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+}
+.nav-spacer a {
+	color: white;
+}
+
+td, th {
+    font-size: 0.8125rem;
+    line-height: 1rem;
+    border-bottom: 1px solid var(--hairline-color);
+    vertical-align: top;
+    padding: 8px;
+    border: 1px solid black;
+}
+
+td,th span {
+	
+	color:var(--body-quiet-color);
+}

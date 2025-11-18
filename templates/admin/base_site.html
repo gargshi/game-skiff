@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrastyle %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/admin_custom.css' %}">
+{% endblock %}
+
+{% block branding %}
+	<h1 id="site-name"><a href="{% url 'admin:index' %}">GameSkiff Admin Panel</a></h1>
+{% endblock %}
+
+{% block nav-global %}
+	<span class="nav-spacer">
+		<a href="/" class="nav-link">Home</a>
+		<a href="/dashboard" class="nav-link">Dashboard</a>
+	</span>
+{% endblock %}
+
+{% block footer %}
+    <div style="text-align:center;padding:10px;color:#555;">
+        Powered by Django • Customized by Shivam
+    </div>
+{% endblock %}

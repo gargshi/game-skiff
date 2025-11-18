@@ -16,6 +16,9 @@
 			<div class="side-bar-item" id="profile-item">Profile</div>
 			<div class="side-bar-item" id="settings-item">Settings</div>
 			<div class="side-bar-item" id="games-item">Games</div>
+			{% if user.is_superuser %}
+				<div class="side-bar-item" id="superuser-item">Superuser Area</div>
+			{% endif %}
 		</div>
 	</div>
 	<div class="profile-content">
@@ -63,6 +66,44 @@
 				</div>
 			</div>
 		</div>
+		{% if user.is_superuser %}
+		<div class="detail" id="superuser-detail">
+			<h2 class="detail-title">Superuser Area</h2>
+			<hr>
+			<p>Some metrics about the site:-</p>
+			<div class="flex flex-wrap">
+				<div class="metric">
+					<div class="metric-value">{{ superuser_metrics.users }}</div>
+					{% if superuser_metrics.users == 1 %}
+						<div class="metric-head">User</div>
+					{% else %}
+						<div class="metric-head">Users</div>
+					{% endif %}					
+				</div>
+				<div class="metric">
+					<div class="metric-value">{{ superuser_metrics.login_users }}</div>
+					{% if superuser_metrics.login_users == 1 %}
+						<div class="metric-head">Logged-In User</div>
+					{% else %}
+						<div class="metric-head">Logged-In Users</div>
+					{% endif %}					
+				</div>
+				<div class="metric">
+					<div class="metric-value">{{ superuser_metrics.games }}</div>
+					{% if superuser_metrics.games == 1 %}
+						<div class="metric-head">Game</div>
+					{% else %}
+						<div class="metric-head">Games</div>
+					{% endif %}
+				</div>			
+			</div>
+			<p>For more metrics, explore the links below:-
+			</p>
+			<a target="_blank" class="btn-link" href="{% url 'admin:index' %}">admin panel</a>
+			<a target="_blank" class="btn-link" href="{% url 'admin:index' %}">Custom admin panel</a>
+
+		</div>
+		{% endif %}
 	</div>
 
 </section>
@@ -217,11 +258,20 @@
 		playedGameList.appendChild(card);
 	});
 
-	const detailSections = {
+	let detailSections = {
 		"profile-item": document.getElementById("profile-detail"),
 		"settings-item": document.getElementById("settings-detail"),
 		"games-item": document.getElementById("games-detail")
 	};
+</script>
+{% if user.is_superuser %}
+	<script>
+		detailSections["superuser-item"] = document.getElementById("superuser-detail");
+	</script>
+{% endif %}
+
+<script>
+	
 	sideBarMenu.querySelectorAll('.side-bar-item').forEach((item) => {
 		item.addEventListener('click', () => {
 			sideBarMenu.querySelectorAll('.side-bar-item').forEach((item) => {
@@ -240,7 +290,9 @@
 			glitchReveal(detailTitle, detailTitle.textContent);
 		})
 	});
+</script>
 
+<script>
 	const editProfileBtn = document.getElementById('edit-profile-btn');
 	let formHidden = true;
 	editProfileBtn.addEventListener('click', () => {
