@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+	{% if game %}
+		Game - {{game.id}}
+	{% else %}
+		No game found
+	{% endif %}
+{% endblock %}
+
+{% block style_scripts %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+
+{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+{% include 'messages.html' %}
+{% if game %}
+	<p>{{game.id}},{{game.title}}, {{game.description}}</p>
+{% else %}
+	<div>No game found</div>
+{% endif %}
+{% endblock %}

@@ -94,6 +94,8 @@ function createModal(options) {
 		content = "This is a modal dialog.",
 		okText = "OK",
 		cancelText = "Cancel",
+		showOK = true,
+		showCancel = true,
 		onOk = () => { },
 		onCancel = () => { }
 	} = options;
@@ -131,12 +133,15 @@ function createModal(options) {
 	const box = document.createElement("div");
 	box.style.color = "#fff";
 	box.style.width = "350px";
+	box.style.minHeight = "200px";
+	box.style.maxHeight = "400px";
 	box.style.background = "var(--modal-bg-color)";
 	box.style.border = "1px solid var(--border-color)";
 	box.style.borderRadius = "10px";
 	box.style.padding = "20px";
 	box.style.boxShadow = "0 5px 20px rgba(0,0,0,0.2)";
 	box.style.animation = "modalPop 0.3s ease";
+	box.classList.add("overflow-y-scroll");
 
 	// ---- Header ----
 	const header = document.createElement("h2");
@@ -186,7 +191,8 @@ function createModal(options) {
 	};
 
 	// ---- Assemble modal ----
-	actions.append(btnCancel, btnOk);
+	if (showCancel) actions.append(btnCancel);
+	if (showOK) actions.append(btnOk);
 	box.append(header, body, actions);
 	overlay.append(box);
 	document.body.append(overlay);
@@ -227,7 +233,9 @@ function createGameCard({
 	description = "",
 	author = "Anon",
 	publisher = "Anon",
-	gradient = color_pool[randInt(color_pool.length)]
+	gradient = color_pool[randInt(color_pool.length)],
+	game_id = -99,
+	add_to_library = false
 }) {
 	const el = document.createElement("div");
 	el.innerHTML = `
@@ -249,7 +257,8 @@ function createGameCard({
 				<div class="desc">${description.length > 50 ? description.slice(0, 50) + "..." : description}</div>
 
 				<div class="actions">
-					<button class="cardd-btn primary">More info</button>					
+					<a class="cardd-btn primary text-decoration-none" target="_blank" href="/seegame/${game_id}">More info</a>	
+					${add_to_library ? `<button class="cardd-btn primary add-to-lib-btn">Add to library</button>` : ""}				
 				</div>
 				<div class="credits">
 					<div class="credit-row">Developed by ${author}</div>

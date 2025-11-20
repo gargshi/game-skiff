@@ -119,6 +119,28 @@
 
 	sideBarMenu = document.querySelector('.side-bar-menu');
 
+	ownGames=document.querySelector('#created-games-list');
+
+	function populateGames(url,parent) {
+		fetch("{% url 'fetchgamesbycurrentuser' %}")
+			.then(res => res.json())
+				.then(data => {
+					gamesArray = data;   // ⬅️ store the full array here
+					console.log("Fetched games:", gamesArray);
+					// render to UI
+					data.forEach(g => {
+						parent.appendChild(createGameCard({
+							title: g.title,
+							description: g.description,
+							author: g.author,
+							genre: g.genre		
+						}));
+					});
+				});		
+	}
+
+	populateGames("{% url 'fetchgamesbycurrentuser' %}",ownGames);
+
 
 	let games = [
 		{
@@ -129,130 +151,11 @@
 			"rating": 4.4,
 			"year": 2024,
 			"description": "Race through neon cities where every turn rewrites the future."
-		},
-		{
-			"name": "Game 2",
-			"title": "Astral Vanguard",
-			"image": "https://picsum.photos/300/180?random=12",
-			"genre": "Sci-Fi Shooter",
-			"rating": 4.7,
-			"year": 2025,
-			"description": "Lead humanity's last elite squad beyond the veil of known space."
-		},
-		{
-			"name": "Game 3",
-			"title": "Shadowgate Rituals",
-			"image": "https://picsum.photos/300/180?random=13",
-			"genre": "Dark Fantasy",
-			"rating": 4.3,
-			"year": 2023,
-			"description": "Unseal cursed gateways and battle ancient spirits of the forgotten realm."
-		},
-		{
-			"name": "Game 4",
-			"title": "Frontier Harvest",
-			"image": "https://picsum.photos/300/180?random=14",
-			"genre": "Colony Builder",
-			"rating": 4.6,
-			"year": 2024,
-			"description": "Grow, build, and defend your settlement on a strange new world."
-		},
-		{
-			"name": "Game 5",
-			"title": "Riftsea Chronicles",
-			"image": "https://picsum.photos/300/180?random=15",
-			"genre": "Action RPG",
-			"rating": 4.5,
-			"year": 2023,
-			"description": "Dive into a fractured ocean world ruled by leviathans and lost magic. Survive the chaos. Be the hero. Be the hero."
-		},
-		{
-			"name": "Game 6",
-			"title": "Chrome Saboteur",
-			"image": "https://picsum.photos/300/180?random=16",
-			"genre": "Stealth / Cyberpunk",
-			"rating": 4.1,
-			"year": 2024,
-			"description": "Hack, infiltrate, and dismantle megacities from the underground."
-		},
-		{
-			"name": "Game 7",
-			"title": "Mythborn Valley",
-			"image": "https://picsum.photos/300/180?random=17",
-			"genre": "Adventure",
-			"rating": 4.8,
-			"year": 2025,
-			"description": "Uncover the myths that shaped a forgotten kingdom hidden in nature."
-		},
-		{
-			"name": "Game 8",
-			"title": "Iron Horizon: Sky Legion",
-			"image": "https://picsum.photos/300/180?random=18",
-			"genre": "Aerial Combat",
-			"rating": 4.2,
-			"year": 2023,
-			"description": "Command customizable airships in the ultimate sky-warfare saga."
-		},
-		{
-			"name": "Game 9",
-			"title": "Echoes of Meridian",
-			"image": "https://picsum.photos/300/180?random=19",
-			"genre": "Story-Driven RPG",
-			"rating": 4.9,
-			"year": 2025,
-			"description": "Rewrite fate as you explore timelines that collide and reshape reality."
-		},
-		{
-			"name": "Game 10",
-			"title": "Outpost Solstice",
-			"image": "https://picsum.photos/300/180?random=20",
-			"genre": "Survival",
-			"rating": 4.4,
-			"year": 2024,
-			"description": "Survive endless winter on a polar outpost where daylight never returns."
 		}
 	];
+		
 
-	let userPlayedGames = [
-		games[0],
-		games[1],
-		games[2],
-		games[3]
-	];
-
-	let userCreatedGames = [
-		games[4],
-		games[5],
-		games[6],
-		games[7],
-		games[8],
-		games[9]
-	]
-
-
-	const gameList = document.getElementById('played-games-list');
-	userCreatedGames.forEach(game => {
-		card = createGameCard({
-			"title": game.title,
-			"genre": game.genre,
-			"rating": game.rating,
-			"year": game.year,
-			"description": game.description
-		});
-		gameList.appendChild(card);
-	});
-
-	const playedGameList = document.getElementById('created-games-list');
-	userPlayedGames.forEach(game => {
-		card = createGameCard({
-			"title": game.title,
-			"genre": game.genre,
-			"rating": game.rating,
-			"year": game.year,
-			"description": game.description
-		});
-		playedGameList.appendChild(card);
-	});
+	
 
 	let detailSections = {
 		"profile-item": document.getElementById("profile-detail"),

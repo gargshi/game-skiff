@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
-from .models import Profile, Game
+from .models import Profile, Game, Genre
 from .serializers import GameSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -20,10 +20,21 @@ def fetch_all_games(request):
     serializer = GameSerializer(games, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def fetch_games_by_current_user(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    user = User.objects.get(username=request.user.username)
+    games = Game.objects.filter(author=user)
+    serializer = GameSerializer(games, many=True)
+    return Response(serializer.data)
+
 def index(request):
     games = Game.objects.all()
+    genres = Genre.objects.all()
     context={
-        'games': games
+        'games': games,
+        'genres': genres
     }
     return render(request, 'index.html',context)
 
@@ -143,12 +154,31 @@ def add_game(request):
             game.title=request.POST["title"]
             game.description=request.POST["description"]
             game.link=request.POST["link"]
+            game.genre=Genre.objects.get(id=request.POST["genre"])
             game.save()
             messages.success(request, 'Game added successfully')
         except Exception as e:
             print(e)
             messages.error(request, 'Something went wrong')
     return redirect('index')
+
+def see_game(request, game_id):
+    if game_id is None or game_id < 1:
+        messages.error(request, 'Invalid game id')
+        return render(request, 'game.html')
+    try:
+        game = Game.objects.get(id=game_id)
+    except Exception as e:
+        if isinstance(e, Game.DoesNotExist):
+            messages.error(request, 'Game not found')            
+        else:
+            messages.error(request, 'Something went wrong')
+        print(e)        
+        return render(request, 'game.html')
+    context = {
+        'game': game
+    }
+    return render(request, 'game.html', context)
 
 def get_logged_in_users():
     sessions = Session.objects.filter(expire_date__gte=datetime.datetime.now())

@@ -388,8 +388,10 @@ label {
 	margin-bottom: 0.4rem;
 	font-weight: 500;
 }
-
+select,
+textarea,
 input[type="text"],
+input[type="textarea"],
 input[type="password"],
 input[type="email"] {
 	width: 100%;
@@ -404,9 +406,28 @@ input[type="email"] {
 	transition: border-color 0.3s ease;
 }
 
+textarea{
+	height: 100px;
+}
+
+select option {
+	background-color: var(--bg-color);
+	color: var(--text-color);
+}
+
 input:focus {
 	border-color: var(--primary-color);
 	outline: none;
+}
+
+.h-100p{
+	height: 100%;
+}
+
+.overflow-y-scroll {
+	overflow-y: scroll;
+	scrollbar-width: thin;
+	scrollbar-color: #3b3b3b #33333300;
 }
 
 .alert-row {
@@ -827,4 +848,8 @@ input:focus {
 .flex-wrap{
 	display: flex;
 	flex-wrap: wrap;
+}
+
+.text-decoration-none{
+	text-decoration: none;
 }

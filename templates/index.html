@@ -45,11 +45,18 @@
 			content: `
 					<form class="flex flex-col" action="{% url 'addgame' %}" method="POST">
 						{% csrf_token %}
-						<input type="text" name="title" placeholder="Game Title">
-						<input type="text" name="description" placeholder="Game Description">
-						<input type="text" name="link" placeholder="Game Link">
+						<input type="text" name="title" placeholder="Game Title" required>
+						<textarea name="description" placeholder="Game Description"></textarea>
+						<input type="text" name="link" placeholder="Link where the game is hosted.">
+						<p>Select Genre</p>
+						<select name="genre">
+							{% for genre in genres %}
+								<option value="{{ genre.id }}">{{ genre.genre_name }}</option>
+							{% endfor %}
+						</select>					
 						<button class="btn" type="submit">Add Game</button>
-					</form>`
+					</form>`,
+			showOK: false
 		});
 	});
 
@@ -61,24 +68,21 @@
 	function fetchGames(parent) {
 		parent.innerHTML = '';
 
+		const loggedInUser = '{% if user.is_authenticated %}{{ user.username }}{% endif %}';
+
 		fetch("{% url 'allgames' %}")
 			.then(res => res.json())
 			.then(data => {
 				gamesArray = data;   // ⬅️ store the full array here
 				console.log("Fetched games:", gamesArray);
-
-				// optional: render to UI
-				/*data.forEach(g => {
-					parent.innerHTML += `<div>${g.title}</div>`;
-				});*/
-
 				// render to UI
 				data.forEach(g => {
 					parent.appendChild(createGameCard({
 						title: g.title,
 						description: g.description,
-						author: g.author,
-						genre: g.genre		
+						author: g.author + (loggedInUser === g.author ? " (You)" : ""),
+						genre: g.genre,
+						game_id: g.id				
 					}));
 				});
 			});

@@ -12,5 +12,7 @@ urlpatterns = [
 	path('bkeditprofile', views.edit_profile, name='bkeditprofile'),
 	path('addgame', views.add_game, name='addgame'),
 	path('allgames', views.fetch_all_games, name='allgames'),
+	path('fetchgamesbycurrentuser', views.fetch_games_by_current_user, name='fetchgamesbycurrentuser'),
+	path('seegame/<int:game_id>', views.see_game, name='see-game'),
 	path('logout', views.logout_logic, name='logout'),
 ]
