@@ -133,8 +133,9 @@
 							title: g.title,
 							description: g.description,
 							author: g.author,
-							genre: g.genre,
-							game_id: g.id
+							genre: g.genres.map(genre => genre).join(", "),
+							game_id: g.id,
+							platform: g.platforms
 						}));
 					});
 				});		

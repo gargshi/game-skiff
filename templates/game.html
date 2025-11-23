@@ -17,123 +17,143 @@
 {% include 'navbar.html' %}
 {% include 'messages.html' %}
 <style>
-	.game-detail {
-		display: flex;
+	/* GLOBAL */
+	body {
+		background: #0d0d0e;
+		color: #e8e8e8;
+		font-family: "Inter", sans-serif;
+		margin: 0;
+		padding: 0;
 	}
 
+	/* =====================================
+	   HERO BANNER (minimal, modern)
+	   ===================================== */
 	.game-banner {
-		background: url("https://picsum.photos/id/239/1800/1000");		
+		position: relative;
+		height: 80vh;
+		border-radius: 12px;
+		background-size: cover !important;
+		background-position: center !important;
 		overflow: hidden;
-		border: 1px solid #ccc;
 	}
 
-	.game-banner .game-title-banner {
-		background: rgba(0, 0, 0, 0.6);
-		height: 400px;
+	.game-banner::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to bottom,
+			rgba(0,0,0,0.25),
+			rgba(0,0,0,0.75)
+		);
+	}
+
+	.game-title-banner {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		padding: 28px 32px;
+		z-index: 2;
+	}
+
+	.game-title-banner .label {
+		font-size: 36px;
+		font-weight: 600;
 		color: white;
-		font-size: 24px;
-		font-weight: bold;
-		/* CENTER THE LABEL */
-		display: flex;
-		padding: 10px;		
-		justify-content: flex-start;
-		/* horizontal */
-		align-items: flex-end;
-		/* vertical */
 	}
 
-	.game-banner .game-title-banner .label {
-		color: white;
-		font-size: 40px;
-		font-weight: 100;
-	}
+	/* =====================================
+	   POINTER TABS (clean, subtle)
+	   ===================================== */
 
-	.game-banner .pointer-tray {
+	.pointer-tray {
 		display: flex;
 		justify-content: center;
-		gap: 2px;
+		margin-top: 16px;
+		gap: 8px;
 	}
 
-	.game-banner .pointer-tray .pointer {		
-		max-width: 400px;
-		flex: 1;
-		height: 150px;
-		background: rgba(0, 0, 0, 0.6);
-		overflow: hidden;
+	.pointer {
+		padding: 10px 22px;
+		border-radius: 8px;
+		border: 1px solid #1f1f20;
+		background: #161617;
 		cursor: pointer;
-		
-		/* CENTER THE LABEL */
-		display: flex;
-		justify-content: center;
-		/* horizontal */
-		align-items: center;
-		/* vertical */
+		transition: 0.2s ease;
 	}
 
-	.game-banner .pointer-tray .pointer:hover {
-		border: 1px solid #ccc;
+	.pointer:hover {
+		background: #1f1f20;
 	}
 
 	.pointer .label {
-		color: white;
-		font-size: 24px;
-		font-weight: bold;
+		font-size: 15px;
+		color: #f0f0f0;
+		letter-spacing: 0.3px;
 	}
 
-	.game-info {
-		flex: 1;
-	}
-</style>
-<style>
-	/* ---------------------------------------------------
-	   Epic Games Style – Dark, Glossy, Premium
-	--------------------------------------------------- */
 
-	body {
-		background: #0e0e0f;
-		color: #e6e6e6;
-		font-family: "Inter", sans-serif;
-	}
+	/* =====================================
+	   PAGE CONTENT LAYOUT
+	   ===================================== */
 
 	.game-detail {
-		display: flex;
-		flex-direction: column;
-		gap: 32px;
-		padding: 40px;
-		padding-top:0px;
-		border-radius: 20px;
-		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-		margin-top: 40px;
-		animation: fadeIn 0.5s ease-out;
+		max-width: 880px;
+		margin: 0 auto;
+		padding: 32px 20px;
 	}
 
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-			transform: translateY(15px);
-		}
-
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+	.section {
+		background: #141415;
+		border-radius: 10px;
+		margin-top: 26px;
+		padding: 22px 26px;
+		border: 1px solid #1e1e20;
 	}
 
-	
+	.section-header h2 {
+		font-size: 20px;
+		font-weight: 600;
+		margin: 0 0 10px;
+	}
 
-	
+	.section-description {
+		color: #bbbbbb;
+		line-height: 1.55;
+		font-size: 15px;
+	}
+
+	/* Screenshots */
+	.shot-img {
+		width: 250px;
+		border-radius: 10px;
+		margin: 10px 10px 0 0;
+		border: 1px solid #222;
+		transition: 0.2s ease;
+	}
+
+	.shot-img:hover {
+		transform: scale(1.03);
+		border-color: #444;
+	}
+
+	.horizontal-list{
+		overflow-x: scroll;		
+		scrollbar-color: #3b3b3b #33333300;		
+	}
 </style>
+
+
 
 {% if game %}
 <div class="game-detail">
+	{% if not game.image %}	
+		<p>No cover image uploaded.</p>
+	{% endif %}
 	<div class="game-banner">
 		<div class="game-title-banner">
 			<div class="label">
-				{% if game.image %}
-					<img src="{{ game.image.url }}" alt="{{ game.title }} cover" class="cover-img">
-				{% else %}
-					<p>No cover image uploaded.</p>
-				{% endif %}
 				{{game.title}}				
 			</div>
 		</div>
@@ -142,13 +162,20 @@
 				<div class="label">ABOUT</div>
 			</div>			
 			<div class="pointer">
-				<div class="label">PLATFORMS</div>
-			</div>
-			<div class="pointer">
 				<div class="label">SCREENSHOTS</div>
 			</div>
 			<div class="pointer">
 				<div class="label">MEET THE TEAM</div>
+			</div>
+			<div class="pointer">				
+				Available on
+				<div class="flex flex-wrap">
+					{% for platform in game.platforms %}
+						<div class="chip">
+							{{platform}}
+						</div>
+					{% endfor %}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -160,28 +187,31 @@
 			<div class="section-description">
 				<p>{{game.description}}</p>
 			</div>
-		</section>
+		</section>		
+		
 		<section class="section">
-			<div class="section-header">
-				<h2>Platforms</h2>
-			</div>
-			<div class="section-description">
-				<p>{{game.platforms}}</p>
-			</div>
-		</section>
-		<section class="section">
+			
 			<div class="section-header">
 				<h2>Screenshots</h2>
 			</div>
 			<div class="section-description">
 				{% if game.screenshots %}
-					{% for screenshot in game.screenshots.all %}
-						{% if screenshot.image %}
-							<img src="{{ screenshot.image.url }}" alt="{{ screenshot.title }} screenshot" class="shot-img">
-						{% else %}
-							<p>No screenshot uploaded.</p>
-						{% endif %}
-					{% endfor %}
+					<div class="horizontal-list">
+						{% for screenshot in game.screenshots.all %}
+							{% if screenshot.image %}
+								<!-- <img src="{{ screenshot.image.url }}" alt="{{ screenshot.title }} screenshot" class="shot-img"> -->
+								<div class="card">
+									<img src="{{ screenshot.image.url }}" alt="Card Image">
+									<div class="card-info">
+										<h3 class="card-title"></h3>
+										<p class="card-desc"></p>
+									</div>
+								</div>								
+							{% else %}
+								<p>No screenshot uploaded.</p>
+							{% endif %}
+						{% endfor %}
+					</div>
 				{% endif %}
 			</div>
 		</section>
@@ -199,4 +229,15 @@
 {% else %}
 <div>No game found</div>
 {% endif %}
+{% endblock %}
+{% block other_scripts %}
+	<script>
+		gameBanner=document.querySelector('.game-banner');	
+		gameBanner.style=`
+			background-image: url('{{ game.image.url }}');
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;	
+		`;
+	</script>
 {% endblock %}

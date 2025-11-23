@@ -1,6 +1,28 @@
 const banner = document.querySelector('.banner');
 const navbarMenu = document.querySelector('.navbar-menu');
 const navbarBrand = document.querySelector('.navbar-brand');
+const platform_svgs={
+	"Windows": `Windows`,	
+	"Mac": `MAC`,	
+	"Web": "🌐",
+	"Android": "🤖",
+	"Linux": "🐧",
+	"iOS": "📱",
+	"Playstation": "🎮",
+	"Xbox": "🎮",
+	"Nintendo": "🎮"
+};
+
+function returnPlatformSVG(platforms) {
+	console.log(platforms);
+	psvg=[];
+	output_html=``;
+	for (i=0;i<platforms.length;i++) {
+		output_html+=platform_svgs[platforms[i]];		
+	}
+	
+	return output_html;
+}
 
 navbarBrand.addEventListener('click', () => {
 	window.location.href = '/';
@@ -235,17 +257,18 @@ function createGameCard({
 	publisher = "Anon",
 	gradient = color_pool[randInt(color_pool.length)],
 	game_id = -99,
-	add_to_library = false
+	add_to_library = false,
+	platform = "Unknown"
 }) {
 	const el = document.createElement("div");
+	
 	el.innerHTML = `
 			<article class="cardd">
 				<div class="thumb">
 					<div class="title">
 						${title}
 						<p>${genre}</p>
-					</div>
-										
+					</div>										
 				</div>
 
 
@@ -258,12 +281,14 @@ function createGameCard({
 
 				<div class="actions">
 					<a class="cardd-btn primary text-decoration-none" target="_blank" href="/seegame/${game_id}">More info</a>	
-					${add_to_library ? `<button class="cardd-btn primary add-to-lib-btn">Add to library</button>` : ""}				
+					${add_to_library ? `<button class="cardd-btn primary add-to-lib-btn">Add to library</button>` : ""}
 				</div>
 				<div class="credits">
 					<div class="credit-row">Developed by ${author}</div>
 					<div class="credit-row">Published by ${publisher}</div>
-				</div>	
+					<div class="credit-row">For ${platform.join(", ")}</div>
+				</div>
+				
 			</article>
 		`;
 	const article = el.firstElementChild;

@@ -20,6 +20,7 @@
 	{% if not games %}
 		<div>No games found</div>
 	{% endif %}
+	
 
 </section>
 
@@ -63,8 +64,9 @@
 						title: g.title,
 						description: g.description,
 						author: g.author + (loggedInUser === g.author ? " (You)" : ""),
-						genre: g.genre,
-						game_id: g.id
+						genre: g.genres.map(genre => genre).join(", "),
+						game_id: g.id,
+						platform: g.platforms
 					}));
 				});
 			});
