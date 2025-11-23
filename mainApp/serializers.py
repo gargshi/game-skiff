@@ -1,11 +1,12 @@
 from rest_framework import serializers
-from django.db.models import Avg, Max, Min, Count
+from django.db.models import Avg, Max, Min
 from .models import Game, Genre, Rating
 
 
 class GameSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
-    genre = serializers.SerializerMethodField()
+    genres = serializers.SerializerMethodField()     # updated
+    platforms = serializers.JSONField()              # new
     avg_rating = serializers.SerializerMethodField()
     highest_rating = serializers.SerializerMethodField()
     lowest_rating = serializers.SerializerMethodField()
@@ -13,16 +14,26 @@ class GameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Game
-        fields = ['id', 'title', 'description', 'image', 'link', 'created_at', 'updated_at', 'author', 'genre', 'avg_rating',
-                  'highest_rating',
-                  'lowest_rating',
-                  'rating_count']
+        fields = [
+            'id', 'title', 'description', 'image', 'link',
+            'created_at', 'updated_at', 'author',
+            'genres', 'platforms', 'current_status',
+            'avg_rating', 'highest_rating', 'lowest_rating', 'rating_count'
+        ]
+
+    # -------------------------
+    # FIELD SERIALIZERS
+    # -------------------------
 
     def get_author(self, obj):
         return obj.author.username
 
-    def get_genre(self, obj):
-        return obj.genre.genre_name
+    def get_genres(self, obj):
+        """
+        Return list of genre names.
+        Example: ["Horror", "Puzzle", "Adventure"]
+        """
+        return [genre.genre_name for genre in obj.genres.all()]
 
     def get_avg_rating(self, obj):
         return obj.ratings.aggregate(avg=Avg("rating"))["avg"]

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
-from .models import Profile, Game, Genre, Rating
+from .models import Profile, Game, Genre, Rating, Screenshot
 
 from django.contrib.sessions.models import Session
 import datetime
@@ -35,3 +35,4 @@ admin.site.register(Profile)
 admin.site.register(Game)
 admin.site.register(Genre)
 admin.site.register(Rating)
+admin.site.register(Screenshot)

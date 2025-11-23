@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Game{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+{% include 'messages.html' %}
+<style>
+	.section {
+		width: 60%;
+	}
+</style>
+
+<div class="container">
+	<div class="row">
+		<div class="left col"></div>
+		<section class="section">
+			<div class="section-header">
+				<h2>Add your game</h2>
+			</div>
+			<div class="section-description">
+				<form class="flex flex-col" action="{% url 'addgame' %}" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input type="text" name="title" placeholder="Game Title" required>
+
+					<textarea name="description" placeholder="Game Description" required></textarea>
+
+					<input type="url" name="link" placeholder="URL to your game (itch.io, Steam, zip)">
+
+					<div class="flex flex-wrap">
+						<div class="flex-1">
+							<p>Select Genre(s)</p>
+							<div class="platform-chip-group">
+								{% for genre in genres %}
+									<label class="platform-chip">
+										<input type="checkbox" name="genres" value="{{ genre.id }}">
+										<span>{{ genre.genre_name }}</span>
+									</label>									
+								{% endfor %}
+							</div>							
+						</div>
+						<div class="flex-1">
+							<p>Select Platform(s)</p>							
+							<div class="platform-chip-group">
+								<label class="platform-chip">
+									<input type="checkbox" name="platforms" value="Windows">
+									<span>🪟 Windows</span>
+								</label>
+
+								<label class="platform-chip">
+									<input type="checkbox" name="platforms" value="Mac">
+									<span>🍎 Mac</span>
+								</label>
+
+								<label class="platform-chip">
+									<input type="checkbox" name="platforms" value="Linux">
+									<span>🐧 Linux</span>
+								</label>
+
+								<label class="platform-chip">
+									<input type="checkbox" name="platforms" value="Web">
+									<span>🌐 Web</span>
+								</label>
+
+								<label class="platform-chip">
+									<input type="checkbox" name="platforms" value="Android">
+									<span>🤖 Android</span>
+								</label>
+
+								<label class="platform-chip">
+									<input type="checkbox" name="platforms" value="iOS">
+									<span>📱 iOS</span>
+								</label>
+
+								<label class="platform-chip">
+									<input type="checkbox" name="platforms" value="Xbox">
+									<span>🟩 Xbox</span>
+								</label>
+
+								<label class="platform-chip">
+									<input type="checkbox" name="platforms" value="Playstation">
+									<span>🎮 PlayStation</span>
+								</label>
+
+								<label class="platform-chip">
+									<input type="checkbox" name="platforms" value="Switch">
+									<span>🟥 Switch</span>
+								</label>
+							</div>
+						</div>
+						<div class="flex-1">
+							<p>Status</p>							
+							<div class="platform-chip-group">
+								<label class="platform-chip">
+									<input type="radio" name="status" value="In Development" checked>
+									<span>In Development</span>
+								</label>
+								<label class="platform-chip">
+									<input type="radio" name="status" value="Demo">
+									<span>Demo</span>
+								</label>
+
+								<label class="platform-chip">
+									<input type="radio" name="status" value="Full Release">
+									<span>Full Release</span>
+								</label>
+
+								<label class="platform-chip">
+									<input type="radio" name="status" value="Prototype">
+									<span>Prototype</span>
+								</label>
+
+								<label class="platform-chip">
+									<input type="radio" name="status" value="Early Access">
+									<span>Early Access</span>
+								</label>
+							</div>
+						</div>
+					</div>
+
+					<!-- Cover -->
+					<p>Game Cover Image</p>
+					<input type="file" name="cover_image" accept="image/*">
+
+					<!-- Screenshots -->
+					<p>Screenshots</p>
+					<input type="file" name="screenshots" accept="image/*" multiple>
+
+					<button class="btn" type="submit">Add Game</button>
+				</form>
+			</div>
+		</section>
+		<div class="right col"></div>
+	</div>
+</div>
+{% endblock %}
+
+{% block other_scripts %}
+<script>
+	const profileName = document.querySelector('.section-header h2');
+	glitchReveal(profileName, profileName.textContent, 1000);
+</script>
+{% endblock %}

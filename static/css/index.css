@@ -7,7 +7,7 @@
 	--font-family: "Stack Sans Headline", "Arial", "Open Sans", sans-serif;
 	--bg-color: #f4f4f4;
 	--text-color: #333;
-	--primary-color: #26a7b8;
+	--primary-color: #509374;
 	--border-color: #323131;
 	--banner-bg-color: #006979;
 	--danger: #f44336;
@@ -24,7 +24,7 @@
 [data-theme="dark"] {
 	--bg-color: #1c1c1c;
 	--text-color: #f4f4f4;
-	--primary-color: #006979;
+	/* --primary-color: #006979; */
 	--border-color: #6a6969;
 }
 
@@ -98,7 +98,9 @@ footer {
 	font-weight: normal;
 	font-size: 1.5rem;
 	padding: 10px;
-	background-color: var(--banner-bg-color);
+	/* background-color: var(--banner-bg-color); */
+	color: var(--text-color);
+	border:1px solid var(--border-color);
 	border-radius: inherit;
 	font-family: 'Silkscreen', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	/* transform: rotateY(0deg); */
@@ -393,7 +395,9 @@ textarea,
 input[type="text"],
 input[type="textarea"],
 input[type="password"],
-input[type="email"] {
+input[type="email"],
+input[type="file"],
+input[type="url"] {
 	width: 100%;
 	box-sizing: border-box;
 	/* flex: 1; */
@@ -413,6 +417,9 @@ textarea{
 select option {
 	background-color: var(--bg-color);
 	color: var(--text-color);
+}
+select::-webkit-scrollbar {
+    display: none;       /* Chrome, Edge, Safari */
 }
 
 input:focus {
@@ -662,6 +669,12 @@ input:focus {
 	gap: 8px
 }
 
+.cardd a.cardd-btn {
+	background-color: blueviolet;
+	font-size: 12px;
+	font-weight: normal;
+}
+
 .cardd-btn {
 	padding: 8px 10px;
 	border-radius: 9px;
@@ -670,6 +683,7 @@ input:focus {
 	cursor: pointer;
 	border: 1px solid rgba(255, 255, 255, 0.04)
 }
+
 
 .cardd-btn:hover {
 	border: 1px solid rgba(121, 121, 121, 0.968);
@@ -852,4 +866,162 @@ input:focus {
 
 .text-decoration-none{
 	text-decoration: none;
+}
+
+#add-game-btn{
+	margin-bottom: 10px;
+}
+
+.section{
+		border: 1px solid #ccc;
+}
+
+.section-header {
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: 16px;
+	border-bottom: 1px solid #ccc;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -10px;
+}
+
+.col {
+	flex: 1;
+	padding: 0 10px;
+}
+
+.flex-1 {
+	flex: 1;
+}
+
+.circle-btn {
+	width: 40px;
+	height: 40px;
+	border-radius: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.platform-chip-group {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-bottom: 18px;
+}
+
+.platform-chip {
+	background: #1e1f22;
+	color: #d0d0d0;
+	padding: 8px 16px;
+	border-radius: 10px;
+	border: 1px solid #2c2e31;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	user-select: none;
+	transition: 
+		background 0.25s ease,
+		border-color 0.25s ease,
+		box-shadow 0.25s ease,
+		color 0.25s ease,
+		transform 0.15s ease;
+}
+
+.platform-chip input {
+	display: none; /* hide checkbox */
+}
+
+/* Hover - soft glow */
+.platform-chip:hover {
+	border-color: #0078f2;
+	box-shadow: 0 0 6px rgba(0,120,242,0.4);
+}
+
+/* Selected state */
+.platform-chip:has(input:checked) {
+	background: #0078f2;
+	border-color: #0078f2;
+	color: white;
+	box-shadow: 0 0 10px rgba(0,120,242,0.65);
+	transform: translateY(-2px);
+}
+
+/* Tap animation */
+.platform-chip:active {
+	transform: scale(0.95);
+}
+
+.status-chip-group {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-bottom: 18px;
+}
+
+.status-chip {
+	background: #1e1f22;
+	color: #d0d0d0;
+	padding: 8px 16px;
+	border-radius: 20px;
+	border: 1px solid #2c2e31;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	user-select: none;
+	transition:
+		background 0.25s ease,
+		border-color 0.25s ease,
+		box-shadow 0.25s ease,
+		color 0.25s ease,
+		transform 0.15s ease;
+}
+
+.status-chip input {
+	display: none;
+}
+
+.status-chip:hover {
+	border-color: #0078f2;
+	box-shadow: 0 0 6px rgba(0,120,242,0.4);
+}
+
+/* SELECTED STATE */
+.status-chip:has(input:checked) {
+	background: #0078f2;
+	border-color: #0078f2;
+	color: white;
+	box-shadow: 0 0 10px rgba(0,120,242,0.65);
+	transform: translateY(-2px);
+}
+
+.status-chip:active {
+	transform: scale(0.95);
+}
+
+
+.cover-img {
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.shot-img {
+    width: 250px;
+    margin: 10px;
+    border-radius: 8px;
 }

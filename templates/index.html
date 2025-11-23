@@ -14,14 +14,13 @@
 
 <section class="section">
 	<h2 class="section-title">All Games</h2>
-	{% if games %}
-	<div class="flex" id="all-games">
-
-	</div>
-	{% else %}
-	<div>No games found</div>
-	{% endif %}
 	<button class="cardd-btn primary" id="add-game-btn">Add Game</button>
+	<div class="flex" id="all-games">
+	</div>
+	{% if not games %}
+		<div>No games found</div>
+	{% endif %}
+
 </section>
 
 <!-- {% block scripts %} 
@@ -40,24 +39,7 @@
 
 	const addGameBtn = document.querySelector('#add-game-btn');
 	addGameBtn.addEventListener('click', () => {
-		createModal({
-			title: "Add Game",
-			content: `
-					<form class="flex flex-col" action="{% url 'addgame' %}" method="POST">
-						{% csrf_token %}
-						<input type="text" name="title" placeholder="Game Title" required>
-						<textarea name="description" placeholder="Game Description"></textarea>
-						<input type="text" name="link" placeholder="Link where the game is hosted.">
-						<p>Select Genre</p>
-						<select name="genre">
-							{% for genre in genres %}
-								<option value="{{ genre.id }}">{{ genre.genre_name }}</option>
-							{% endfor %}
-						</select>					
-						<button class="btn" type="submit">Add Game</button>
-					</form>`,
-			showOK: false
-		});
+		window.location.href = "{% url 'addgamepage' %}";
 	});
 
 	const allGames = document.querySelector('#all-games');
@@ -82,7 +64,7 @@
 						description: g.description,
 						author: g.author + (loggedInUser === g.author ? " (You)" : ""),
 						genre: g.genre,
-						game_id: g.id				
+						game_id: g.id
 					}));
 				});
 			});

@@ -6,10 +6,11 @@ from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
-from .models import Profile, Game, Genre
+from .models import Profile, Game, Genre, Screenshot
 from .serializers import GameSerializer
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.parsers import MultiPartParser, FormParser
 import datetime
 
 # Create your views here.
@@ -142,24 +143,81 @@ def edit_profile(request):
             messages.error(request, 'Something went wrong')
     return redirect('user-profile', request.user)
 
+# def add_game(request):
+#     if not request.user.is_authenticated:
+#         messages.error(request, 'You must be logged in to add a game')
+#         return redirect('login')
+#     if request.method == 'POST' and request.user.is_authenticated:
+#         messages.info(request, f'Adding game...{request.POST.get("title")} ')
+#         try:
+#             game = Game()
+#             game.author = request.user
+#             game.title = request.POST["title"]
+#             game.description = request.POST["description"]
+#             game.link = request.POST["link"]
+#             game.save()
+#             cover = request.FILES.get("cover_image")
+#             game.image = cover
+#             game.save()
+
+
+#             screenshots = request.FILES.getlist("screenshots")
+#             for screenshot in screenshots:
+#                 game.screenshots.create(image=screenshot)
+#             # Save platforms (JSONField)
+#             game.platforms = request.POST.getlist("platforms")
+#             game.current_status = request.POST["status"]
+#             # FIRST save the game (required before M2M assignment)
+#             game.save()
+#             # Now assign the ManyToMany genres
+#             genres_selected = request.POST.getlist("genres")
+#             game.genres.set(genres_selected)
+#             game.save()  # optional second save
+#             messages.success(request, 'Game added successfully')
+#         except Exception as e:
+#             print(e)
+#             messages.error(request, 'Something went wrong')
+#     return redirect('index')
+
 def add_game(request):
     if not request.user.is_authenticated:
         messages.error(request, 'You must be logged in to add a game')
         return redirect('login')
-    if request.method == 'POST' and request.user.is_authenticated:
-        messages.info(request, f'Adding game...{request.POST.get("title")} ')
+
+    if request.method == 'POST':
         try:
-            game = Game()
-            game.author=request.user
-            game.title=request.POST["title"]
-            game.description=request.POST["description"]
-            game.link=request.POST["link"]
-            game.genre=Genre.objects.get(id=request.POST["genre"])
+            print(request.POST)
+            # 1. Create the Game object FIRST
+            game = Game(
+                author=request.user,
+                title=request.POST["title"],
+                description=request.POST["description"],
+                link=request.POST["link"],
+                current_status=request.POST["status"],         # status here
+                platforms=request.POST.getlist("platforms"),  # platforms here
+            )
             game.save()
-            messages.success(request, 'Game added successfully')
+
+            # 2. Save cover image
+            cover = request.FILES.get("cover_image")
+            if cover:
+                game.image = cover
+                game.save()
+
+            # 3. Save screenshots
+            screenshots = request.FILES.getlist("screenshots")
+            for screenshot in screenshots:
+                game.screenshots.create(image=screenshot)
+
+            # 4. Add genres (M2M)
+            genres_selected = request.POST.getlist("genres")
+            game.genres.set(genres_selected)
+
+            messages.success(request, 'Game added successfully!')
         except Exception as e:
-            print(e)
-            messages.error(request, 'Something went wrong')
+            print("ERROR:", e)
+            messages.error(request, 'Something went wrong.')
+
     return redirect('index')
 
 def see_game(request, game_id):
@@ -172,8 +230,7 @@ def see_game(request, game_id):
         if isinstance(e, Game.DoesNotExist):
             messages.error(request, 'Game not found')            
         else:
-            messages.error(request, 'Something went wrong')
-        print(e)        
+            messages.error(request, 'Something went wrong')       
         return render(request, 'game.html')
     context = {
         'game': game
@@ -191,3 +248,14 @@ def get_logged_in_users():
             user_ids.append(uid)
 
     return User.objects.filter(id__in=set(user_ids))
+
+def add_game_page(request):
+    if not request.user.is_authenticated:
+        messages.error(request, 'You must be logged in to add a game')
+        return redirect('login')
+    genres = Genre.objects.all()
+    context = {
+        'genres': genres
+    }
+    return render(request, 'add_game.html', context)
+

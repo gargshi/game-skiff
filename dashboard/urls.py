@@ -6,3 +6,4 @@ app_name = 'dashboard'
 urlpatterns = [
     path('', views.index, name='index'),
 ]
+

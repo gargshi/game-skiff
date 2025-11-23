@@ -146,3 +146,6 @@ REST_FRAMEWORK = {
         'user': '200/min',   # Limit for authenticated users
     }
 }
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

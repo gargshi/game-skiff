@@ -11,15 +11,192 @@
 
 {% block style_scripts %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
-
 {% endblock %}
 
 {% block content %}
 {% include 'navbar.html' %}
 {% include 'messages.html' %}
+<style>
+	.game-detail {
+		display: flex;
+	}
+
+	.game-banner {
+		background: url("https://picsum.photos/id/239/1800/1000");		
+		overflow: hidden;
+		border: 1px solid #ccc;
+	}
+
+	.game-banner .game-title-banner {
+		background: rgba(0, 0, 0, 0.6);
+		height: 400px;
+		color: white;
+		font-size: 24px;
+		font-weight: bold;
+		/* CENTER THE LABEL */
+		display: flex;
+		padding: 10px;		
+		justify-content: flex-start;
+		/* horizontal */
+		align-items: flex-end;
+		/* vertical */
+	}
+
+	.game-banner .game-title-banner .label {
+		color: white;
+		font-size: 40px;
+		font-weight: 100;
+	}
+
+	.game-banner .pointer-tray {
+		display: flex;
+		justify-content: center;
+		gap: 2px;
+	}
+
+	.game-banner .pointer-tray .pointer {		
+		max-width: 400px;
+		flex: 1;
+		height: 150px;
+		background: rgba(0, 0, 0, 0.6);
+		overflow: hidden;
+		cursor: pointer;
+		
+		/* CENTER THE LABEL */
+		display: flex;
+		justify-content: center;
+		/* horizontal */
+		align-items: center;
+		/* vertical */
+	}
+
+	.game-banner .pointer-tray .pointer:hover {
+		border: 1px solid #ccc;
+	}
+
+	.pointer .label {
+		color: white;
+		font-size: 24px;
+		font-weight: bold;
+	}
+
+	.game-info {
+		flex: 1;
+	}
+</style>
+<style>
+	/* ---------------------------------------------------
+	   Epic Games Style – Dark, Glossy, Premium
+	--------------------------------------------------- */
+
+	body {
+		background: #0e0e0f;
+		color: #e6e6e6;
+		font-family: "Inter", sans-serif;
+	}
+
+	.game-detail {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+		padding: 40px;
+		padding-top:0px;
+		border-radius: 20px;
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+		margin-top: 40px;
+		animation: fadeIn 0.5s ease-out;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(15px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	
+
+	
+</style>
+
 {% if game %}
-	<p>{{game.id}},{{game.title}}, {{game.description}}</p>
+<div class="game-detail">
+	<div class="game-banner">
+		<div class="game-title-banner">
+			<div class="label">
+				{% if game.image %}
+					<img src="{{ game.image.url }}" alt="{{ game.title }} cover" class="cover-img">
+				{% else %}
+					<p>No cover image uploaded.</p>
+				{% endif %}
+				{{game.title}}				
+			</div>
+		</div>
+		<div class="pointer-tray">
+			<div class="pointer">
+				<div class="label">ABOUT</div>
+			</div>			
+			<div class="pointer">
+				<div class="label">PLATFORMS</div>
+			</div>
+			<div class="pointer">
+				<div class="label">SCREENSHOTS</div>
+			</div>
+			<div class="pointer">
+				<div class="label">MEET THE TEAM</div>
+			</div>
+		</div>
+	</div>
+	<div class="game-info">
+		<section class="section">
+			<div class="section-header">
+				<h2>About</h2>
+			</div>
+			<div class="section-description">
+				<p>{{game.description}}</p>
+			</div>
+		</section>
+		<section class="section">
+			<div class="section-header">
+				<h2>Platforms</h2>
+			</div>
+			<div class="section-description">
+				<p>{{game.platforms}}</p>
+			</div>
+		</section>
+		<section class="section">
+			<div class="section-header">
+				<h2>Screenshots</h2>
+			</div>
+			<div class="section-description">
+				{% if game.screenshots %}
+					{% for screenshot in game.screenshots.all %}
+						{% if screenshot.image %}
+							<img src="{{ screenshot.image.url }}" alt="{{ screenshot.title }} screenshot" class="shot-img">
+						{% else %}
+							<p>No screenshot uploaded.</p>
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			</div>
+		</section>
+		<section class="section">
+			<div class="section-header">
+				<h2>Meet the team</h2>
+			</div>
+			<div class="section-description">
+				<p>{{game.team}}</p>
+			</div>
+		</section>
+		
+	</div>
+</div>
 {% else %}
-	<div>No game found</div>
+<div>No game found</div>
 {% endif %}
 {% endblock %}
