@@ -69,8 +69,10 @@
 
 	.pointer-tray {
 		display: flex;
-		justify-content: center;
+		align-items: flex-end;
+		justify-content: flex-end;
 		margin-top: 16px;
+		margin-right: 14px;
 		gap: 8px;
 	}
 
@@ -81,6 +83,9 @@
 		background: #161617;
 		cursor: pointer;
 		transition: 0.2s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.pointer:hover {
@@ -158,7 +163,7 @@
 			</div>
 		</div>
 		<div class="pointer-tray">
-			<div class="pointer">
+			<!-- <div class="pointer">
 				<div class="label">ABOUT</div>
 			</div>			
 			<div class="pointer">
@@ -166,9 +171,8 @@
 			</div>
 			<div class="pointer">
 				<div class="label">MEET THE TEAM</div>
-			</div>
+			</div> -->
 			<div class="pointer">				
-				Available on
 				<div class="flex flex-wrap">
 					{% for platform in game.platforms %}
 						<div class="chip">
@@ -193,9 +197,10 @@
 			
 			<div class="section-header">
 				<h2>Screenshots</h2>
+				<span class="chip">{{game.screenshots.count}}</span>
 			</div>
-			<div class="section-description">
-				{% if game.screenshots %}
+			<div class="section-description">				
+				{% if game.screenshots.count %}
 					<div class="horizontal-list">
 						{% for screenshot in game.screenshots.all %}
 							{% if screenshot.image %}
@@ -206,12 +211,12 @@
 										<h3 class="card-title"></h3>
 										<p class="card-desc"></p>
 									</div>
-								</div>								
-							{% else %}
-								<p>No screenshot uploaded.</p>
+								</div>						
 							{% endif %}
 						{% endfor %}
 					</div>
+				{% else %}
+					No screenshot uploaded.
 				{% endif %}
 			</div>
 		</section>
@@ -220,6 +225,11 @@
 				<h2>Meet the team</h2>
 			</div>
 			<div class="section-description">
+				{% if game.team %}
+					<p>The game was developed by:</p>
+				{% else %}
+					<p>No team information provided.</p>
+				{% endif %}
 				<p>{{game.team}}</p>
 			</div>
 		</section>
@@ -233,8 +243,13 @@
 {% block other_scripts %}
 	<script>
 		gameBanner=document.querySelector('.game-banner');	
-		gameBanner.style=`
-			background-image: url('{{ game.image.url }}');
+
+		gameBanner.style=`			
+			{% if game.image %}
+				background-image: url('{{ game.image.url }}');
+			{% else %}
+				background-image: url('{% static "imgs/no_game_image_bw.jpg" %}');
+			{% endif %}
 			background-size: cover;
 			background-position: center;
 			background-repeat: no-repeat;	

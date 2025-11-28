@@ -250,6 +250,7 @@ function randInt(max) {
 function createGameCard({
 	title,
 	genre = "Unknown",
+	imageurl = "https://picsum.photos/600/400", 
 	rating = 0,
 	year = 0,
 	description = "",
@@ -263,37 +264,55 @@ function createGameCard({
 	const el = document.createElement("div");
 	
 	el.innerHTML = `
-			<article class="cardd">
-				<div class="thumb">
-					<div class="title">
-						${title}
-						<p>${genre}</p>
-					</div>										
-				</div>
+	<div class="game-card">
+		<div class="game-thumb">
+			<img src="${imageurl}" alt="Game Image">
+			<div class="actions">
+				<a class="game-card-btn play-btn" target="_blank" href='/seegame/${game_id}'">
+					Info
+				</a>
+				<a class="game-card-btn report-btn" target="_blank" href='/report/game/${game_id}'">
+					Report
+				</a>
+			</div>
+		</div>
 
+		<div class="game-info">
+			<h3 class="game-title">${title}</h3>
+			<p class="game-author">by ${author}</p>
+			<p class="game-genre">${genre}</p>
 
-				<div class="meta">
-					<div class="rating">⭐ ${rating}</div>
-					<div>${year}</div>
-				</div>
-
-				<div class="desc">${description.length > 50 ? description.slice(0, 50) + "..." : description}</div>
-
-				<div class="actions">
-					<a class="cardd-btn primary text-decoration-none" target="_blank" href="/seegame/${game_id}">More info</a>	
-					${add_to_library ? `<button class="cardd-btn primary add-to-lib-btn">Add to library</button>` : ""}
-				</div>
-				<div class="credits">
-					<div class="credit-row">Developed by ${author}</div>
-					<div class="credit-row">Published by ${publisher}</div>
-					<div class="credit-row">For ${platform.join(", ")}</div>
-				</div>
-				
-			</article>
-		`;
+			<div class="game-tags">
+				<span class="tag">Play in browser</span>
+				${platform.includes("Windows")?`
+				<span class="icon">🖥️</span>
+				`:``}
+				${platform.includes("Mac")?`
+				<span class="icon">🍎</span>
+				`:``}
+				${platform.includes("Linux")?`
+				<span class="icon">🐧</span>
+				`:``}
+				${platform.includes("Android")?`
+				<span class="icon">📱</span>
+				`:``}           
+			</div>
+		</div>
+	</div>`;
 	const article = el.firstElementChild;
-	const thumb = article.querySelector(".thumb");
-	thumb.style.background = gradient;
+	const actions = article.querySelector('.actions');
+	article.addEventListener('mouseenter', () => {
+		article.style.boxShadow = `0 4px 20px #bababacd`;
+		actions.style.transform = 'translate(-50%, -50%) scale(1.05)';
+		actions.style.opacity = '1';
+	});
+	article.addEventListener('mouseleave', () => {
+		article.style.boxShadow = `0 4px 12px #00000040`;
+		actions.style.transform = 'translate(-50%, -50%) scale(1)';
+		actions.style.opacity = '0';
+	});
+	
 
 	return article;
 }
+

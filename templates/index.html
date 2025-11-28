@@ -13,13 +13,66 @@
 {% include 'messages.html' %}
 
 <section class="section">
-	<h2 class="section-title">All Games</h2>
-	<button class="cardd-btn primary" id="add-game-btn">Add Game</button>
-	<div class="flex" id="all-games">
+	<div class="section-header flex-start-end">
+		<h2 class="section-title">All Games</h2>
+		<button class="btn primary" id="add-game-btn">Add Game</button>		
 	</div>
-	{% if not games %}
-		<div>No games found</div>
-	{% endif %}
+	<hr>
+	<div class="flex">
+		<div class="genres pl-5 pr-5">
+			<a class="genre {% if not active_genre_name %}active{% endif %}" id="genre-all" href="{% url 'index' %}">All</a>
+			{% for genre in genres %}
+				<a class="genre {% if genre.genre_name == active_genre_name %}active{% endif %}" href="{% url 'index' genre.genre_name %}">{{ genre.genre_name }}</a>
+			{% endfor %}
+		</div>
+		<div class="flex" id="all-games">
+			{% if not games %}
+				<div>No games found</div>
+			{% endif %}
+			{% for game in games %}
+				<div class="game-card">
+					<div class="game-thumb">
+						{% if game.image %}
+							<img src="{{ game.image.url }}" alt="Game Image">
+						{% else %}
+							<img src="{% static 'imgs/no_game_image_bw.jpg' %}" alt="No Image Available">
+						{% endif %}
+						<div class="actions">
+							<a class="game-card-btn play-btn" target="_blank" href='{% url "see-game" game.id %}'>
+								Info
+							</a>
+							<a class="game-card-btn report-btn" target="_blank" href='{% url "see-game" game.id %}'>
+								Report
+							</a>
+						</div>
+					</div>
+
+					<div class="game-info">
+						<h3 class="game-title">{{game.title}}</h3>
+						<p class="game-author">by {{game.author}}</p>
+						<p class="game-genre">{{game.genres.all|join:", "}}</p>
+
+						<div class="game-tags">
+							<span class="tag">Play in browser</span>
+							{% if "Windows" in game.platform%}						
+								<span class="icon">🖥️</span>
+							{% endif %}
+							{% if "Mac" in game.platform %}
+								<span class="icon">🍎</span>
+							{% endif %}
+							{% if "Linux" in game.platform %}
+								<span class="icon">🐧</span>
+							{% endif %}
+							{% if "Android" in game.platform %}
+								<span class="icon">🤖</span>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	
 	
 
 </section>
@@ -42,35 +95,20 @@
 	addGameBtn.addEventListener('click', () => {
 		window.location.href = "{% url 'addgamepage' %}";
 	});
-
-	const allGames = document.querySelector('#all-games');
-	fetchGames(allGames);
-
-	let gamesArray = [];   // this will store the array of JSON objects
-
-	function fetchGames(parent) {
-		parent.innerHTML = '';
-
-		const loggedInUser = '{% if user.is_authenticated %}{{ user.username }}{% endif %}';
-
-		fetch("{% url 'allgames' %}")
-			.then(res => res.json())
-			.then(data => {
-				gamesArray = data;   // ⬅️ store the full array here
-				console.log("Fetched games:", gamesArray);
-				// render to UI
-				data.forEach(g => {
-					parent.appendChild(createGameCard({
-						title: g.title,
-						description: g.description,
-						author: g.author + (loggedInUser === g.author ? " (You)" : ""),
-						genre: g.genres.map(genre => genre).join(", "),
-						game_id: g.id,
-						platform: g.platforms
-					}));
-				});
-			});
-	}
-
+	
+	const articles = document.querySelectorAll('.game-card');
+	articles.forEach(article => {
+		const actions = article.querySelector('.actions');
+		article.addEventListener('mouseenter', () => {
+			article.style.boxShadow = `0 4px 20px #bababacd`;
+			actions.style.transform = 'translate(-50%, -50%) scale(1.05)';
+			actions.style.opacity = '1';
+		});
+		article.addEventListener('mouseleave', () => {
+			article.style.boxShadow = `0 4px 12px #00000040`;
+			actions.style.transform = 'translate(-50%, -50%) scale(1)';
+			actions.style.opacity = '0';
+		});
+	});
 </script>
 {% endblock %}

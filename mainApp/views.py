@@ -24,20 +24,35 @@ def fetch_all_games(request):
 @api_view(['GET'])
 def fetch_games_by_current_user(request):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return Response({"detail": "Authentication required."}, status=401)
     user = User.objects.get(username=request.user.username)
     games = Game.objects.filter(author=user)
     serializer = GameSerializer(games, many=True)
     return Response(serializer.data)
 
-def index(request):
+def fetch_games_by_genre(request, genre_name):
+    pass
+
+def index(request, genre_name=None):
     games = Game.objects.all()
     genres = Genre.objects.all()
+    if genre_name:
+        try:
+            genre = Genre.objects.get(genre_name=genre_name)
+            games = Game.objects.filter(genres=genre)
+            print(f"Filtering games by genre: {genre_name}, found {games.count()} games.")
+        except Genre.DoesNotExist:
+            games = Game.objects.none()
+    # print(f"Total games to display: {games.count()}")    
+    # print(f"Genres available: {[g.genre_name for g in genres]}")
+    # print(f"Games to display: {[game.title for game in games]}")
     context={
         'games': games,
-        'genres': genres
+        'genres': genres,
+        'active_genre_name': genre_name
     }
     return render(request, 'index.html',context)
+
 
 
 def goToLogin(request):

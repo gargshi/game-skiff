@@ -152,6 +152,8 @@ footer {
 
 .section {
 	margin-bottom: 40px;
+	margin-left: 20px;
+	margin-right:20px;
 	padding: 20px;
 }
 
@@ -623,6 +625,8 @@ input:focus {
 
 
 
+
+
 .thumb {
 	height: 150px;
 	border-radius: 8px;
@@ -657,6 +661,7 @@ input:focus {
 }
 
 .desc {
+	font-family: Arial, Helvetica, sans-serif;
 	color: var(--muted);
 	font-size: 13px;
 	margin: 10px 0;
@@ -666,18 +671,20 @@ input:focus {
 
 .actions {
 	display: flex;
+	justify-content: space-between;
 	gap: 8px
 }
 
 .cardd a.cardd-btn {
 	background-color: blueviolet;
-	font-size: 12px;
+	font-size: 10px;
 	font-weight: normal;
 }
 
 .cardd-btn {
-	padding: 8px 10px;
-	border-radius: 9px;
+	text-align: center;
+	flex: 1;
+	padding: 6px 4px;
 	font-weight: 700;
 	border: 0;
 	cursor: pointer;
@@ -689,12 +696,13 @@ input:focus {
 	border: 1px solid rgba(121, 121, 121, 0.968);
 }
 
-.cardd .credits {
+.cardd .credits {	
 	position: absolute;
     bottom: 2vh;
 }
 
 .cardd .credits .credit-row {
+	font-family: Arial, Helvetica, sans-serif;
 	display: flex;
 	gap: 8px;
 	align-items: center;
@@ -870,6 +878,7 @@ input:focus {
 
 #add-game-btn{
 	margin-bottom: 10px;
+	font-size: 10px;
 }
 
 .section{
@@ -877,6 +886,9 @@ input:focus {
 }
 
 .section-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	font-size: 24px;
 	font-weight: bold;
 	margin-bottom: 16px;
@@ -1048,4 +1060,161 @@ input:focus {
 	font-size: 15px;
 	border: 1px solid var(--border-color);
 	border-radius: 10px;
+}
+
+.game-card {
+    width: 260px;
+    background: var(--card-bg);
+    border-radius: 6px;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    transition: transform 0.5s ease;
+}
+
+.game-card:hover {
+    transform: translateY(-4px);
+}
+
+.game-thumb {
+	position: relative;
+    width: 100%;
+    height: 170px;
+    overflow: hidden;
+}
+
+.game-thumb .actions{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(1);
+	opacity: 0;
+	transition: transform 0.5s ease, opacity 0.5s ease;
+	display: flex;
+	gap: 6px;
+	z-index: 20;
+}
+
+.game-thumb .actions button,a.game-card-btn{
+	font-family: 'Arial', sans-serif;
+	font-size: 12px;
+	text-decoration: none;
+	border-radius: 6px;
+	background-color: rgba(0, 0, 0, 0.6);
+	border: none;
+	padding-left: 10px;	
+	padding-right: 10px;	
+	padding-top: 8px;
+	padding-bottom: 8px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	color: white;
+}
+
+.game-thumb .actions button svg{
+	width: 20px;
+	height: 20px;
+	fill: currentColor;
+}
+	
+
+.game-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: scale 0.3s ease;
+}
+
+.game-card:hover img {
+    scale: 1.05;
+}
+
+.game-info {
+    padding: 10px;
+}
+
+.game-title {
+    font-size: 17px;
+    margin: 0;
+    font-weight: 600;
+}
+
+.game-author {
+    margin: 4px 0;
+    color: rgb(122, 121, 121);
+    font-size: 13px;
+}
+
+.game-genre {
+    margin: 6px 0;
+    color: #666;
+    font-size: 13px;
+}
+
+.game-tags {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.tag {
+    border: 1px solid var(--border-color);
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.icon {
+    font-size: 15px;
+}
+
+.genres {
+	border: 1px solid #ccc;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.genre {
+	padding: 8px 12px;
+	border-radius: 6px;
+	border: 1px solid #2c2e31;
+	cursor: pointer;
+	text-decoration: none;
+	color: var(--text-color);
+	transition:
+		background 0.25s ease,
+		border-color 0.25s ease,
+		box-shadow 0.25s ease,
+		color 0.25s ease,
+		transform 0.15s ease;
+}
+
+.genre.active {
+	transform: scale(0.95);
+	border-color: #6444c7;
+	background: #6444c7;
+}
+
+.genre:hover {
+	background: #0078f2;
+	border-color: #0078f2;
+	color: white;
+	box-shadow: 0 0 10px rgba(0,120,242,0.65);
+	transform: translateY(-2px);
+}
+
+.pl-5 {
+	padding-left: 5px;
+}
+.pr-5 {
+	padding-right: 5px;
+}
+
+.flex-start-end {
+	justify-content: space-between;
+	align-items: center;
+
 }

@@ -3,17 +3,22 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+	path('', views.index, name='index'),
+	
 	path('login', views.goToLogin, name='login'),
     path('register', views.goToRegister, name='register'),
 	path('addgamepage', views.add_game_page, name='addgamepage'),
 	path('bklogin', views.login_logic, name='bklogin'),
     path('bkregister', views.register, name='bkregister'),
-    path('<str:user>/userProfile', views.userProfile, name='user-profile'),
 	path('bkeditprofile', views.edit_profile, name='bkeditprofile'),
 	path('addgame', views.add_game, name='addgame'),
-	path('allgames', views.fetch_all_games, name='allgames'),
+	
 	path('fetchgamesbycurrentuser', views.fetch_games_by_current_user, name='fetchgamesbycurrentuser'),
-	path('seegame/<int:game_id>', views.see_game, name='see-game'),
+	path('allgames', views.fetch_all_games, name='allgames'),
+	# path('fetchgamesbygenre/<str:genre_name>', views.fetch_games_by_genre, name='fetchgamesbygenre'),
 	path('logout', views.logout_logic, name='logout'),
+
+	path('genre/<str:genre_name>', views.index, name='index'),
+    path('<str:user>/userProfile', views.userProfile, name='user-profile'),
+	path('seegame/<int:game_id>', views.see_game, name='see-game'),
 ]
