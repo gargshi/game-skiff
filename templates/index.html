@@ -15,27 +15,66 @@
 <section class="section">
 	<div class="section-header flex-start-end">
 		<h2 class="section-title">All Games</h2>
-		<button class="btn primary" id="add-game-btn">Add Game</button>		
+		<button class="btn primary" id="add-game-btn">Add Game</button>
 	</div>
-	<hr>
 	<div class="flex">
 		<div class="genres pl-5 pr-5">
-			<a class="genre {% if not active_genre_name %}active{% endif %}" id="genre-all" href="{% url 'index' %}">All</a>
+			<a class="genre {% if not active_genre_name %}active{% endif %}" id="genre-all"
+				href="{% url 'index' %}">All</a>
 			{% for genre in genres %}
-				<a class="genre {% if genre.genre_name == active_genre_name %}active{% endif %}" href="{% url 'index' genre.genre_name %}">{{ genre.genre_name }}</a>
+			<a class="genre {% if genre.genre_name == active_genre_name %}active{% endif %}"
+				href="{% url 'index' genre.genre_name %}">{{ genre.genre_name }}</a>
 			{% endfor %}
 		</div>
-		<div class="flex" id="all-games">
+		<div id="all-games">
 			{% if not games %}
-				<div>No games found</div>
-			{% endif %}
-			{% for game in games %}
+			<div>No games found</div>
+			{% else %}
+			<div class="pagination">
+				<form method="get" class="per-page-form flex">
+					<label for="per_page">Records per page:</label>
+					<select name="per_page" id="per_page" onchange="this.form.submit()">
+						<option value="5"  {% if per_page == 5 %}selected{% endif %}>5</option>
+						<option value="10" {% if per_page == 10 %}selected{% endif %}>10</option>
+						<option value="20" {% if per_page == 20 %}selected{% endif %}>20</option>
+						<option value="50" {% if per_page == 50 %}selected{% endif %}>50</option>
+						<option value="100" {% if per_page == 100 %}selected{% endif %}>100</option>
+					</select>
+
+					{# keep the current page when selecting #}
+					<input type="hidden" name="page" value="{{ page_obj.number }}">
+				</form>
+
+				
+
+				{% if page_obj.has_previous %}
+					<a href="?page={{ page_obj.previous_page_number }}&per_page={{ per_page }}" class="page-btn">← Prev</a>
+				{% else %}
+					<span class="page-btn disabled">← Prev</span>
+				{% endif %}
+
+				{% for num in page_obj.paginator.page_range %}
+					<a href="?page={{ num }}&per_page={{ per_page }}" 
+					class="page-number {% if num == page_obj.number %}active{% endif %}">
+						{{ num }}
+					</a>
+				{% endfor %}
+
+				{% if page_obj.has_next %}
+					<a href="?page={{ page_obj.next_page_number }}&per_page={{ per_page }}" class="page-btn">Next →</a>
+				{% else %}
+					<span class="page-btn disabled">Next →</span>
+				{% endif %}			
+			</div>
+
+			<div class="flex flex-wrap">
+				{% for game in page_obj %}
 				<div class="game-card">
 					<div class="game-thumb">
 						{% if game.image %}
-							<img src="{{ game.image.url }}" alt="Game Image">
+						<img src="{{ game.image.url }}" alt="Game Image">
 						{% else %}
-							<img src="{% static 'imgs/no_game_image_bw.jpg' %}" alt="No Image Available">
+						<img src="{% static 'imgs/no_game_image_bw.jpg' %}" alt="No Image Available">
 						{% endif %}
 						<div class="actions">
 							<a class="game-card-btn play-btn" target="_blank" href='{% url "see-game" game.id %}'>
@@ -54,26 +93,29 @@
 
 						<div class="game-tags">
 							<span class="tag">Play in browser</span>
-							{% if "Windows" in game.platform%}						
-								<span class="icon">🖥️</span>
+							{% if "Windows" in game.platforms %}
+							<span class="icon">🖥️</span>
 							{% endif %}
-							{% if "Mac" in game.platform %}
-								<span class="icon">🍎</span>
+							{% if "Mac" in game.platforms %}
+							<span class="icon">🍎</span>
 							{% endif %}
-							{% if "Linux" in game.platform %}
-								<span class="icon">🐧</span>
+							{% if "Linux" in game.platforms %}
+							<span class="icon">🐧</span>
 							{% endif %}
-							{% if "Android" in game.platform %}
-								<span class="icon">🤖</span>
+							{% if "Android" in game.platforms %}
+							<span class="icon">🤖</span>
 							{% endif %}
 						</div>
 					</div>
 				</div>
-			{% endfor %}
+				{% endfor %}
+			</div>
+			{% endif %}
+
 		</div>
 	</div>
-	
-	
+
+
 
 </section>
 
@@ -89,13 +131,16 @@
 		document.querySelector('.left').onclick = () => list.scrollBy({ left: -250, behavior: 'smooth' });
 		document.querySelector('.right').onclick = () => list.scrollBy({ left: 250, behavior: 'smooth' });
 	}
-	glitchReveal(navbarBrand, navbarBrand.textContent, 1000);
+	if (window.location.pathname === "/" && window.location.search === "") {
+		glitchReveal(navbarBrand, navbarBrand.textContent, 1000);
+	}
+	//glitchReveal(navbarBrand, navbarBrand.textContent, 1000);
 
 	const addGameBtn = document.querySelector('#add-game-btn');
 	addGameBtn.addEventListener('click', () => {
 		window.location.href = "{% url 'addgamepage' %}";
 	});
-	
+
 	const articles = document.querySelectorAll('.game-card');
 	articles.forEach(article => {
 		const actions = article.querySelector('.actions');

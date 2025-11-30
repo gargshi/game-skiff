@@ -11,6 +11,7 @@ from .serializers import GameSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.core.paginator import Paginator
 import datetime
 
 # Create your views here.
@@ -46,8 +47,23 @@ def index(request, genre_name=None):
     # print(f"Total games to display: {games.count()}")    
     # print(f"Genres available: {[g.genre_name for g in genres]}")
     # print(f"Games to display: {[game.title for game in games]}")
+
+    # Pagination
+    games= games.order_by('-id')  # Order by newest first
+    per_page = request.GET.get('per_page', 10)  # default 10
+    try:
+        per_page = int(per_page)
+    except:
+        per_page = 10
+    paginator = Paginator(games, per_page)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+
     context={
         'games': games,
+        'page_obj': page_obj,
+        'per_page': per_page,
         'genres': genres,
         'active_genre_name': genre_name
     }
@@ -201,7 +217,7 @@ def add_game(request):
 
     if request.method == 'POST':
         try:
-            print(request.POST)
+            # print(request.POST)
             # 1. Create the Game object FIRST
             game = Game(
                 author=request.user,
